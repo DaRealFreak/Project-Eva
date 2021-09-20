@@ -56,7 +56,7 @@ class UserInterface
     ; any pixel on the exit portal
     IsExitPortalIconVisible()
     {
-        return Utility.GetColor(1140,713) == "0x271A0A"
+        return Utility.GetColor(1153,724) == "0xFFD700"
     }
 
     ; any pixel on the revive skil
