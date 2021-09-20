@@ -162,9 +162,12 @@ class ProjectEva
 
         start := A_TickCount
         phaseStarted := false
+        phaseChanged := 0
         while (A_TickCount < start + 18 * 1000) {
             if (!UserInterface.IsEvaTargetable()) {
-                if (!phaseStarted) {
+                ; only change phase at least 3 seconds after the last change
+                if (!phaseStarted && phaseChanged + 3*1000 < A_TickCount) {
+                    phaseChanged := A_TickCount
                     phaseStarted := true
 
                     sleep 250
@@ -228,12 +231,17 @@ class ProjectEva
             }
 
             if (UserInterface.IsReviveVisible()) {
+                log.addLogEntry("$time: died while trying to finish the fight, reviving and retrying")
+
                 while (!UserInterface.IsInLoadingScreen()) {
                     send 4
                     sleep 250
                 }
 
                 ProjectEva.WaitLoadingScreen()
+
+                ; sleep a bit for iframes/skills coming up again
+                sleep 15*1000
 
                 ; walk back up to eva
                 send {w down}
@@ -257,7 +265,7 @@ class ProjectEva
 
         ; repair weapon after the defined amount of runs
         if (mod(this.runCount, Configuration.UseRepairToolsAfterRunCount()) == 0) {
-            DreamSongTheater.RepairWeapon()
+            ProjectEva.RepairWeapon()
         }
 
         send {w down}
