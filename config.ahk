@@ -33,7 +33,7 @@ class Configuration
 
     UseNormalModeAutoCombat()
     {
-        return false
+        return true
     }
 
     ToggleAutoCombat()
