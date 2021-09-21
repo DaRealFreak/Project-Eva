@@ -112,7 +112,11 @@ class ProjectEva
 
         ; it sometimes didn't register the click, safety loop here
         loop, 4 {
-            UserInterface.ClickEasyMode()
+            if (Configuration.UseNormalModeAutoCombat()) {
+                UserInterface.ClickNormalMode()
+            } else {
+                UserInterface.ClickEasyMode()
+            }
             sleep 250
         }
 
@@ -140,17 +144,152 @@ class ProjectEva
     {
         log.addLogEntry("$time: moving to eva")
 
-        send {w down}
-        while (!UserInterface.IsEvaHealthbarVisible()) {
-            sleep 25
-        }
-        send {w up}
+        if (Configuration.UseNormalModeAutoCombat()) {
+            ; we can't move somehow during the first few seconds
+            sleep 2*1000
+            send {w down}
+            send {ShiftDown}
+            sleep 4.5*1000
+            send {w up}
+            send {ShiftUp}
 
+            return ProjectEva.AutoFightEva()
+        } else {
+            send {w down}
+            while (!UserInterface.IsEvaHealthbarVisible()) {
+                sleep 25
+            }
+            send {w up}
+
+            while (!UserInterface.IsEvaTargetable()) {
+                sleep 25
+            }
+
+            return ProjectEva.FightEva()
+        }
+    }
+
+    AutoFightEva()
+    {
+        log.addLogEntry("$time: activating auto combat")
+        tooltip % "activating auto combat"
+        Configuration.ToggleAutoCombat()
+
+        ; wait until auto combat reached eva and attacks her
+        log.addLogEntry("$time: autocombat moving to eva")
+        tooltip % "autocombat moving to eva"
         while (!UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
             sleep 25
         }
 
-        return ProjectEva.FightEva()
+        ; phase start jump untargetability
+        log.addLogEntry("$time: autocombat until phase jump")
+        tooltip % "autocombat until phase jump"
+        while (UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+            sleep 25
+        }
+
+        ; iframe phase jump
+        log.addLogEntry("$time: iframe phase jump")
+        tooltip % "iframe phase jump"
+        sleep 250
+        loop, 10 {
+            Combat.Iframe()
+            sleep 5
+        }
+
+        ; wait until we can attack her again
+        log.addLogEntry("$time: wait until we can target eva again after phase jump")
+        tooltip % "wait until we can target eva again after phase jump"
+        while (!UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+            sleep 25
+        }
+
+        ; wait until she jumps to the sides
+        log.addLogEntry("$time: autocombat until phase")
+        tooltip % "autocombat until phase"
+        while (UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+            sleep 25
+        }
+
+        ; let auto combat do auto combat things during phase
+        log.addLogEntry("$time: autocombat during phase")
+        tooltip % "autocombat during phase"
+        sleep 34*1000
+
+        ; wait until auto combat targets eva again and is out of cc
+        log.addLogEntry("$time: wait until autocombat targets eva for cc")
+        tooltip % "wait until autocombat targets eva for cc"
+        while (!UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+            sleep 25
+        }
+
+        ; for 1 second spam the cc skill in case of gcd groups
+        log.addLogEntry("$time: cc phase end")
+        tooltip % "cc phase end"
+        loop, 25 {
+            Combat.CcSkill()
+            sleep 40
+        }
+
+        ; wait until auto combat finishes
+        log.addLogEntry("$time: autocombat until the end")
+        tooltip % "autocombat until the end"
+        while (!UserInterface.IsDynamicRewardVisible()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+
+            ; ToDo: on death clip shadow play and exit
+            sleep 25
+        }
+
+        ; wait until we picked up possible loot and went back to the portal
+        tooltip % ""
+        sleep 7*1000
+        Configuration.ToggleAutoCombat()
+
+        this.runCount += 1
+
+        ; repair weapon after the defined amount of runs
+        if (mod(this.runCount, Configuration.UseRepairToolsAfterRunCount()) == 0) {
+            ProjectEva.RepairWeapon()
+        }
+
+        while (!UserInterface.IsExitPortalIconVisible()) {
+            send {left down}
+            sleep 0.1*1000
+            send {left up}
+        }
+
+        return ProjectEva.UseExitPortal()
     }
 
     FightEva()
@@ -162,7 +301,7 @@ class ProjectEva
 
         start := A_TickCount
         phaseStarted := false
-        phaseChanged := 0
+        phaseChanged := A_TickCount - 2*1000
         while (A_TickCount < start + 18 * 1000) {
             if (!UserInterface.IsEvaTargetable()) {
                 ; only change phase at least 3 seconds after the last change
@@ -293,20 +432,23 @@ class ProjectEva
         send {w up}
         sleep 250
 
-        send f
-        sleep 750
-        send y
-        sleep 750
+        return ProjectEva.UseExitPortal()
+    }
 
-        loop, 3 {
-            send f
-            sleep 750
+    UseExitPortal()
+    {
+        send f
+        sleep 500
+
+        ; spam y to continue quest and accept dynamic
+        loop, 20 {
+            send y
+            sleep 25
         }
 
-        send y
-        sleep 750
+        ; if daily 3 additional rewards got reached decline
         send n
-        sleep 750
+        sleep 100
 
         while (!UserInterface.IsInLoadingScreen()) {
             send f

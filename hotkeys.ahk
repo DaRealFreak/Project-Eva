@@ -33,5 +33,12 @@ Numpad0::
 
     return
 
+Numpad1::
+    global log := new LogClass("project_eva")
+    log.initalizeNewLogFile(1)
+    log.addLogEntry("$time: starting project eva")
+    ProjectEva.MoveToEva()
+    return
+
 NumpadDel::Reload
 NumpadEnter::ExitApp

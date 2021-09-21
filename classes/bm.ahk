@@ -90,6 +90,11 @@ class Combat
         send c
     }
 
+    CcSkill()
+    {
+        send 3
+    }
+
     ; whatever you want to do at the end of a fight, I use it to hmb for additional movement speed
     EndFight()
     {

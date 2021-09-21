@@ -31,6 +31,18 @@ class Configuration
         return 20
     }
 
+    UseNormalModeAutoCombat()
+    {
+        return false
+    }
+
+    ToggleAutoCombat()
+    {
+        send {ShiftDown}{f4 down}
+        sleep 1000
+        send {ShiftUp}{f4 up}
+    }
+
     ; shortcut for shadowplay clip in case we want to debug how we got stuck or got to this point
     ClipShadowPlay()
     {

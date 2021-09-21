@@ -13,10 +13,15 @@ class UserInterface
         MouseClick, left, 800, 600
     }
 
+    ClickNormalMode()
+    {
+        MouseClick, left, 950, 600
+    }
+
     ; whenever you want to refresh your exp buff food (basically one of the last pixels which will become darker)
     IsBuffFoodIconVisible()
     {
-        return Utility.GetColor(21,5) == "0x3C2B37"
+        return Utility.GetColor(21,9) == "0x937841"
     }
 
     ; some of the filled out bar in the loading screen on the bottom of the screen
@@ -43,8 +48,8 @@ class UserInterface
     ; any skill of your class which requires a target to see if we can attack eva 
     IsEvaTargetable()
     {
-        ; any target skill
-        return Utility.GetColor(939,887) != "0x252525"
+        ; any target skill (if possible not used by auto combat or you'll need 2 skills)
+        return Utility.GetColor(939,887) == "0x1C3B82" || Utility.GetColor(1034,887) == "0x593F93"
     }
 
     ; box icon of the dynamic quest
