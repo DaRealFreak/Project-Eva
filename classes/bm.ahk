@@ -92,6 +92,8 @@ class Combat
 
     CcSkill()
     {
+        send {tab}
+        sleep 5
         send 3
     }
 
