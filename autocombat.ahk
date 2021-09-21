@@ -1,0 +1,156 @@
+﻿SetKeyDelay, -1, -1
+SetWinDelay, -1
+
+class AutoCombat
+{
+    StartAutoCombat()
+    {
+        log.addLogEntry("$time: activating auto combat")
+        tooltip % "activating auto combat"
+        Configuration.ToggleAutoCombat()
+
+        return AutoCombat.MoveToEva()
+    }
+
+    MoveToEva()
+    {
+        ; wait until auto combat reached eva and attacks her
+        log.addLogEntry("$time: autocombat moving to eva")
+        tooltip % "autocombat moving to eva"
+        while (!UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+            sleep 25
+        }
+
+        return AutoCombat.FightEva()
+    }
+
+    FightEva()
+    {
+        ; phase start jump untargetability
+        log.addLogEntry("$time: autocombat until phase jump")
+        tooltip % "autocombat until phase jump"
+        while (UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+            sleep 25
+        }
+
+        ; iframe phase jump
+        log.addLogEntry("$time: iframe phase jump")
+        tooltip % "iframe phase jump"
+        sleep 250
+        loop, 10 {
+            Combat.Iframe()
+            sleep 5
+        }
+
+        ; wait until we can attack her again
+        log.addLogEntry("$time: wait until we can target eva again after phase jump")
+        tooltip % "wait until we can target eva again after phase jump"
+        while (!UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+            sleep 25
+        }
+
+        ; wait until she jumps to the sides
+        log.addLogEntry("$time: autocombat until phase")
+        tooltip % "autocombat until phase"
+        while (UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+            sleep 25
+        }
+
+        return AutoCombat.PhaseCombat()
+    }
+
+    PhaseCombat()
+    {
+        ; let auto combat do auto combat things during phase
+        log.addLogEntry("$time: autocombat during phase")
+        tooltip % "autocombat during phase"
+        sleep 34*1000
+
+        return AutoCombat.FinishFight()
+    }
+
+    FinishFight()
+    {
+        ; wait until auto combat targets eva again and is out of cc
+        log.addLogEntry("$time: wait until autocombat targets eva for cc")
+        tooltip % "wait until autocombat targets eva for cc"
+        while (!UserInterface.IsEvaTargetable()) {
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+            sleep 25
+        }
+
+        ; for 1 second spam the cc skill in case of gcd groups
+        log.addLogEntry("$time: cc phase end")
+        tooltip % "cc phase end"
+        loop, 25 {
+            Combat.CcSkill()
+            sleep 40
+        }
+
+        ; wait until auto combat finishes
+        log.addLogEntry("$time: autocombat until the end")
+        tooltip % "autocombat until the end"
+        while (!UserInterface.IsDynamicRewardVisible()) {
+            if (!UserInterface.IsEvaTargetable()) {
+                sleep 250
+                loop, 10 {
+                    Combat.Iframe()
+                    sleep 5
+                }
+            }
+            
+            if (UserInterface.IsReviveVisible()) {
+                Configuration.ClipShadowPlay()
+                sleep 250
+                ExitApp
+            }
+
+            ; ToDo: on death clip shadow play and exit
+            sleep 25
+        }
+
+        ; wait until we picked up possible loot and went back to the portal
+        tooltip % ""
+        sleep 5*1000
+        Configuration.ToggleAutoCombat()
+
+        return AutoCombat.ExitDungeon()
+    }
+
+    ExitDungeon()
+    {
+        ProjectEva.CheckRepair()
+
+        while (!UserInterface.IsExitPortalIconVisible()) {
+            send {left down}
+            sleep 0.1*1000
+            send {left up}
+        }
+
+        return ProjectEva.UseExitPortal()
+    }
+}

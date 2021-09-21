@@ -4,6 +4,7 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\lib\utility.ahk
 #Include %A_ScriptDir%\lib\log.ahk
 
+#Include %A_ScriptDir%\autocombat.ahk
 #Include %A_ScriptDir%\class.ahk
 #Include %A_ScriptDir%\config.ahk
 #Include %A_ScriptDir%\ui.ahk
@@ -43,8 +44,9 @@ class ProjectEva
             Configuration.UseBuffFood()
             sleep 750
             send {w down}
-            sleep 5
+            sleep 50
             send {w up}
+            sleep 200
         }
     }
 
@@ -153,7 +155,7 @@ class ProjectEva
             send {w up}
             send {ShiftUp}
 
-            return ProjectEva.AutoFightEva()
+            return AutoCombat.StartAutoCombat()
         } else {
             send {w down}
             while (!UserInterface.IsEvaHealthbarVisible()) {
@@ -167,129 +169,6 @@ class ProjectEva
 
             return ProjectEva.FightEva()
         }
-    }
-
-    AutoFightEva()
-    {
-        log.addLogEntry("$time: activating auto combat")
-        tooltip % "activating auto combat"
-        Configuration.ToggleAutoCombat()
-
-        ; wait until auto combat reached eva and attacks her
-        log.addLogEntry("$time: autocombat moving to eva")
-        tooltip % "autocombat moving to eva"
-        while (!UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
-            sleep 25
-        }
-
-        ; phase start jump untargetability
-        log.addLogEntry("$time: autocombat until phase jump")
-        tooltip % "autocombat until phase jump"
-        while (UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
-            sleep 25
-        }
-
-        ; iframe phase jump
-        log.addLogEntry("$time: iframe phase jump")
-        tooltip % "iframe phase jump"
-        sleep 250
-        loop, 10 {
-            Combat.Iframe()
-            sleep 5
-        }
-
-        ; wait until we can attack her again
-        log.addLogEntry("$time: wait until we can target eva again after phase jump")
-        tooltip % "wait until we can target eva again after phase jump"
-        while (!UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
-            sleep 25
-        }
-
-        ; wait until she jumps to the sides
-        log.addLogEntry("$time: autocombat until phase")
-        tooltip % "autocombat until phase"
-        while (UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
-            sleep 25
-        }
-
-        ; let auto combat do auto combat things during phase
-        log.addLogEntry("$time: autocombat during phase")
-        tooltip % "autocombat during phase"
-        sleep 34*1000
-
-        ; wait until auto combat targets eva again and is out of cc
-        log.addLogEntry("$time: wait until autocombat targets eva for cc")
-        tooltip % "wait until autocombat targets eva for cc"
-        while (!UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
-            sleep 25
-        }
-
-        ; for 1 second spam the cc skill in case of gcd groups
-        log.addLogEntry("$time: cc phase end")
-        tooltip % "cc phase end"
-        loop, 25 {
-            Combat.CcSkill()
-            sleep 40
-        }
-
-        ; wait until auto combat finishes
-        log.addLogEntry("$time: autocombat until the end")
-        tooltip % "autocombat until the end"
-        while (!UserInterface.IsDynamicRewardVisible()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
-
-            ; ToDo: on death clip shadow play and exit
-            sleep 25
-        }
-
-        ; wait until we picked up possible loot and went back to the portal
-        tooltip % ""
-        sleep 7*1000
-        Configuration.ToggleAutoCombat()
-
-        this.runCount += 1
-
-        ; repair weapon after the defined amount of runs
-        if (mod(this.runCount, Configuration.UseRepairToolsAfterRunCount()) == 0) {
-            ProjectEva.RepairWeapon()
-        }
-
-        while (!UserInterface.IsExitPortalIconVisible()) {
-            send {left down}
-            sleep 0.1*1000
-            send {left up}
-        }
-
-        return ProjectEva.UseExitPortal()
     }
 
     FightEva()
@@ -396,16 +275,21 @@ class ProjectEva
         }
     }
 
-    ExitDungeon()
+    CheckRepair()
     {
-        log.addLogEntry("$time: exiting dungeon")
-
         this.runCount += 1
 
         ; repair weapon after the defined amount of runs
         if (mod(this.runCount, Configuration.UseRepairToolsAfterRunCount()) == 0) {
             ProjectEva.RepairWeapon()
         }
+    }
+
+    ExitDungeon()
+    {
+        log.addLogEntry("$time: exiting dungeon")
+
+        ProjectEva.CheckRepair()
 
         send {w down}
 
@@ -437,16 +321,14 @@ class ProjectEva
 
     UseExitPortal()
     {
-        send f
-        sleep 500
-
         ; spam y to continue quest and accept dynamic
-        loop, 20 {
-            send y
+        loop, 45 {
+            send yf
             sleep 25
         }
 
         ; if daily 3 additional rewards got reached decline
+        sleep 250
         send n
         sleep 100
 
