@@ -119,7 +119,7 @@ class ProjectEva
 
         ; it sometimes didn't register the click, safety loop here
         loop, 4 {
-            if (Configuration.UseNormalModeAutoCombat()) {
+            if (Configuration.UseNormalMode()) {
                 UserInterface.ClickNormalMode()
             } else {
                 UserInterface.ClickEasyMode()
@@ -151,7 +151,7 @@ class ProjectEva
     {
         log.addLogEntry("$time: moving to eva")
 
-        if (Configuration.UseNormalModeAutoCombat()) {
+        if (Configuration.UseAutoCombat()) {
             ; we can't move somehow during the first few seconds
             sleep 2*1000
             send {w down}

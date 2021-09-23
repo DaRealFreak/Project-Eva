@@ -31,7 +31,14 @@ class Configuration
         return 20
     }
 
-    UseNormalModeAutoCombat()
+    ; which mode is being used: normal or easy (hard still wipes so not possible)
+    UseNormalMode()
+    {
+        return true
+    }
+
+    ; use auto combat (requires bin file modification/multi tool option) or play it clean without game modifications
+    UseAutoCombat()
     {
         return true
     }
