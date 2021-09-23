@@ -18,11 +18,7 @@ class AutoCombat
         log.addLogEntry("$time: autocombat moving to eva")
         tooltip % "autocombat moving to eva"
         while (!UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
+            AutoCombat.CheckForDeath()
             sleep 25
         }
 
@@ -35,11 +31,7 @@ class AutoCombat
         log.addLogEntry("$time: autocombat until phase jump")
         tooltip % "autocombat until phase jump"
         while (UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
+            AutoCombat.CheckForDeath()
             sleep 25
         }
 
@@ -56,11 +48,7 @@ class AutoCombat
         log.addLogEntry("$time: wait until we can target eva again after phase jump")
         tooltip % "wait until we can target eva again after phase jump"
         while (!UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
+            AutoCombat.CheckForDeath()
             sleep 25
         }
 
@@ -68,15 +56,28 @@ class AutoCombat
         log.addLogEntry("$time: autocombat until phase")
         tooltip % "autocombat until phase"
         while (UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
+            AutoCombat.CheckForDeath()
             sleep 25
         }
 
         return AutoCombat.PhaseCombat()
+    }
+
+    CheckForDeath()
+    {
+        if (UserInterface.IsReviveVisible()) {
+            Configuration.ClipShadowPlay()
+            sleep 250
+
+            while (!UserInterface.IsInLoadingScreen()) {
+                send 4
+                sleep 250
+            }
+
+            ProjectEva.WaitLoadingScreen()
+
+            return ProjectEva.FailSafe()
+        }
     }
 
     PhaseCombat()
@@ -95,11 +96,7 @@ class AutoCombat
         log.addLogEntry("$time: wait until autocombat targets eva for cc")
         tooltip % "wait until autocombat targets eva for cc"
         while (!UserInterface.IsEvaTargetable()) {
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
+            AutoCombat.CheckForDeath()
             sleep 25
         }
 
@@ -123,13 +120,8 @@ class AutoCombat
                 }
             }
             
-            if (UserInterface.IsReviveVisible()) {
-                Configuration.ClipShadowPlay()
-                sleep 250
-                ExitApp
-            }
+            AutoCombat.CheckForDeath()
 
-            ; ToDo: on death clip shadow play and exit
             sleep 25
         }
 

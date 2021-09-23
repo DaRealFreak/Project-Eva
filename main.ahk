@@ -109,6 +109,11 @@ class ProjectEva
         send {ShiftUp}
         sleep 250
 
+        return ProjectEva.SelectMode()
+    }
+
+    SelectMode()
+    {
         send f
         sleep 750
 
@@ -131,7 +136,7 @@ class ProjectEva
                 ; record shadowplay since this shouldn't happen usually
                 Configuration.ClipShadowPlay()
 
-                return ExitApp
+                return ProjectEva.FailSafe()
             }
 
             sleep 250
@@ -307,7 +312,7 @@ class ProjectEva
                 ; record shadowplay since this shouldn't happen usually
                 Configuration.ClipShadowPlay()
 
-                ExitApp
+                return ProjectEva.FailSafe()
             }
 
             sleep 5
@@ -341,6 +346,77 @@ class ProjectEva
         ProjectEva.WaitLoadingScreen()
 
         return true
+    }
+
+    FailSafe()
+    {
+        send {AltDown}
+        sleep 250
+
+        UserInterface.MoveMouseOverMap()
+        sleep 250
+
+        ; zoom out completely
+        loop, 5 {
+            MouseClick, WheelUp
+            sleep 25
+        }
+
+        ; zoom in once
+        MouseClick, WheelDown
+
+        sleep 250
+        UserInterface.ClickWindstridePoint()
+
+        sleep 250
+        send y
+
+        while (!UserInterface.IsInLoadingScreen()) {
+            sleep 250
+        }
+
+        ProjectEva.WaitLoadingScreen()
+
+        ; go to stairs
+        send {a down}
+        sleep 15*1000
+        send {a up}
+
+        ; start running in front
+        send {w down}
+        sleep 5
+        send {ShiftDown}
+        sleep 5
+        sleep 3*1000
+
+        ; now move to the right to the pillar
+        send {d down}
+        sleep 5.5*1000
+        send {d up}
+        send {w up}
+        send {ShiftUp}
+        sleep 5
+
+        ; start running to the npc
+        send {w down}
+        sleep 5
+        send {ShiftDown}
+        sleep 2*1000
+
+        ; bit more left for the spawn point
+        send {a down}
+        sleep 1.75*1000
+        send {a up}
+        send {w up}
+        send {ShiftUp}
+        sleep 5
+
+        ; last steps
+        send {w down}
+        sleep 1*1000
+        send {w up}
+
+        return ProjectEva.EnterDungeon()
     }
 
     ; repair the weapon
