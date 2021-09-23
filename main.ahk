@@ -224,11 +224,19 @@ class ProjectEva
     WaitPhase()
     {
         ; since movement is instant we have no rng timing and can just wait 34 seconds before tabbing
-        sleep 34*1000
+        if (Configuration.UseTabEscapeForCC()) {
+            sleep 34*1000
+        } else {
+            sleep 32*1000
+        }
 
         log.addLogEntry("$time: tabbing to cc eva phase end")
         loop, 2 {
-            send {tab}
+            if (Configuration.UseTabEscapeForCC()) {
+                send {tab}
+            } else {
+                Combat.PhaseEndCC()
+            }
             sleep 25
         }
 

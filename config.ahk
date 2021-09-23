@@ -43,6 +43,11 @@ class Configuration
         return true
     }
 
+    UseTabEscapeForCC()
+    {
+        return true
+    }
+
     ToggleAutoCombat()
     {
         send {ShiftDown}{f4 down}
