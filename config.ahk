@@ -45,14 +45,60 @@ class Configuration
 
     UseTabEscapeForCC()
     {
+        return false
+    }
+
+    UseCombatSpeedHack()
+    {
+        return true
+    }
+
+    UseMovementSpeedHack()
+    {
         return true
     }
 
     ToggleAutoCombat()
     {
         send {ShiftDown}{f4 down}
-        sleep 1000
+        sleep 250
         send {ShiftUp}{f4 up}
+    }
+
+    ; enable movement speed hack (sanic or normal ce speedhack)
+    EnableMovementSpeedhack()
+    {
+        send {Numpad3}
+    }
+
+    ; disable movement speed hack (sanic or normal ce speedhack)
+    DisableMovementSpeedhack()
+    {
+        send {Numpad4}
+    }
+
+    ; configured speed value
+    MovementSpeedhackValue()
+    {
+        return 4.0
+    }
+
+    ; enable combat speed hack (shouldn't interfere with cooldowns), leave empty if you don't use it
+    EnableCombatSpeedhack()
+    {
+        send {Numpad1}
+    }
+
+    ; disable combat speed hack (shouldn't interfere with cooldowns), leave empty if you don't use it
+    DisableCombatSpeedhack()
+    {
+        send {Numpad2}
+    }
+
+    ; configured speed value
+    CombatSpeedhackValue()
+    {
+        return 5.0
     }
 
     ; shortcut for shadowplay clip in case we want to debug how we got stuck or got to this point

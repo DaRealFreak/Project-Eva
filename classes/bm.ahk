@@ -42,12 +42,6 @@ class Combat
         sleep 150
     }
 
-    ; you can either tab early, dps a bit and manually set a cc skill here or just use the tab escape (fck sins and warlocks lol)
-    PhaseEndCC()
-    {
-        send 3
-    }
-
     ; after tabbing we may have to enter a stance again (f.e. bm)
     EnterStance()
     {

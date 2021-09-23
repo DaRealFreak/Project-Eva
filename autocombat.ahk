@@ -7,6 +7,11 @@ class AutoCombat
     {
         log.addLogEntry("$time: activating auto combat")
         tooltip % "activating auto combat"
+
+        if (Configuration.UseCombatSpeedHack()) {
+            Configuration.EnableCombatSpeedhack()
+        }
+
         Configuration.ToggleAutoCombat()
 
         return AutoCombat.MoveToEva()
@@ -105,9 +110,9 @@ class AutoCombat
         ; for 1 second spam the cc skill in case of gcd groups
         log.addLogEntry("$time: cc phase end")
         tooltip % "cc phase end"
-        loop, 25 {
+        loop, 100 {
             Combat.CcSkill()
-            sleep 40
+            sleep 10
         }
 
         ; wait until auto combat finishes
@@ -129,7 +134,13 @@ class AutoCombat
 
         ; wait until we picked up possible loot and went back to the portal
         tooltip % ""
-        sleep 5*1000
+
+        sleep 5*1000 / (Configuration.UseCombatSpeedHack() ? Configuration.CombatSpeedhackValue() : 1)
+
+        if (Configuration.UseCombatSpeedHack()) {
+            Configuration.DisableCombatSpeedhack()
+        }
+
         Configuration.ToggleAutoCombat()
 
         return AutoCombat.ExitDungeon()

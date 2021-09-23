@@ -156,7 +156,17 @@ class ProjectEva
             sleep 2*1000
             send {w down}
             send {ShiftDown}
-            sleep 4.5*1000
+
+            if (Configuration.UseMovementSpeedHack()) {
+                Configuration.EnableMovementSpeedhack()
+            }
+
+            sleep 4.7*1000 / (Configuration.UseMovementSpeedHack() ? Configuration.MovementSpeedhackValue() : 1)
+
+            if (Configuration.UseMovementSpeedHack()) {
+                Configuration.DisableMovementSpeedhack()
+            }
+
             send {w up}
             send {ShiftUp}
 
@@ -235,7 +245,7 @@ class ProjectEva
             if (Configuration.UseTabEscapeForCC()) {
                 send {tab}
             } else {
-                Combat.PhaseEndCC()
+                Combat.CcSkill()
             }
             sleep 25
         }
