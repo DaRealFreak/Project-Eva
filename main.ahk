@@ -348,6 +348,8 @@ class ProjectEva
         return true
     }
 
+    ; use windstride from mini map and walk back to the spawn point in front of eva
+    ; FixMe: currently configured for 25 points in movement speed, change to 0 and abuse speed hack
     FailSafe()
     {
         send {AltDown}
