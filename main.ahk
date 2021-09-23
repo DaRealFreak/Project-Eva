@@ -355,9 +355,17 @@ class ProjectEva
         send n
         sleep 100
 
+        if (Configuration.UseMovementSpeedHack()) {
+            Configuration.EnableMovementSpeedhack()
+        }
+
         while (!UserInterface.IsInLoadingScreen()) {
             send f
             sleep 250
+        }
+
+        if (Configuration.UseMovementSpeedHack()) {
+            Configuration.DisableMovementSpeedhack()
         }
 
         ; wait until we're out and end this loop
