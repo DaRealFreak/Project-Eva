@@ -18,6 +18,16 @@ class UserInterface
         MouseClick, left, 950, 600
     }
 
+    MoveMouseOverMap()
+    {
+        MouseMove, 1636, 263
+    }
+
+    ClickWindstridePoint()
+    {
+        MouseClick, Left, 1636, 263
+    }
+
     ; whenever you want to refresh your exp buff food (basically one of the last pixels which will become darker)
     IsBuffFoodIconVisible()
     {
