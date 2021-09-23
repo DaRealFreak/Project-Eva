@@ -24,6 +24,8 @@ Numpad0::
     ; safety initial repair before starting the runs in case we forget it
     ProjectEva.RepairWeapon()
 
+    ProjectEva.SelectMode()
+
     loop {
         if (!ProjectEva.EnterDungeon()) {
             break
@@ -31,13 +33,6 @@ Numpad0::
         sleep 250
     }
 
-    return
-
-Numpad1::
-    global log := new LogClass("project_eva")
-    log.initalizeNewLogFile(1)
-    log.addLogEntry("$time: starting project eva")
-    ProjectEva.MoveToEva()
     return
 
 NumpadDel::Reload
