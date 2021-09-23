@@ -66,6 +66,8 @@ class AutoCombat
     CheckForDeath()
     {
         if (UserInterface.IsReviveVisible()) {
+            log.addLogEntry("$time: died during auto combat")
+
             Configuration.ClipShadowPlay()
             sleep 250
 

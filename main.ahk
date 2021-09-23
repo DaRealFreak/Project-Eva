@@ -360,6 +360,8 @@ class ProjectEva
     ; FixMe: currently configured for 25 points in movement speed, change to 0 and abuse speed hack
     FailSafe()
     {
+        log.addLogEntry("$time: using fail safe to return to eva exit spawn")
+
         send {AltDown}
         sleep 250
 
