@@ -1,4 +1,4 @@
-# Dreamsong Theater Macro
+# Spectral Shrine Macro
 ![GitHub](https://img.shields.io/github/license/DaRealFreak/bns-project-eva)  
 Macro to farm the dungeon "Spectral Shrine" on easy and normal mode automatically. While essentially still being a macro with just some color checks this can possibly get you banned though. Usage is therefore obviously on your own risk.
 
