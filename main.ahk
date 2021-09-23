@@ -152,16 +152,16 @@ class ProjectEva
         log.addLogEntry("$time: moving to eva")
 
         if (Configuration.UseAutoCombat()) {
+            if (Configuration.UseMovementSpeedHack()) {
+                Configuration.EnableMovementSpeedhack()
+            }
+
             ; we can't move somehow during the first few seconds
             sleep 2*1000
             send {w down}
             send {ShiftDown}
 
-            if (Configuration.UseMovementSpeedHack()) {
-                Configuration.EnableMovementSpeedhack()
-            }
-
-            sleep 4.7*1000 / (Configuration.UseMovementSpeedHack() ? Configuration.MovementSpeedhackValue() : 1)
+            sleep 4.5*1000 / (Configuration.UseMovementSpeedHack() ? Configuration.MovementSpeedhackValue() : 1)
 
             if (Configuration.UseMovementSpeedHack()) {
                 Configuration.DisableMovementSpeedhack()

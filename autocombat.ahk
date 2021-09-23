@@ -71,6 +71,9 @@ class AutoCombat
     CheckForDeath()
     {
         if (UserInterface.IsReviveVisible()) {
+            ; clear leftover tooltip
+            tooltip % ""
+
             log.addLogEntry("$time: died during auto combat")
 
             Configuration.ClipShadowPlay()
