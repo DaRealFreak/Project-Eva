@@ -2,29 +2,8 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-class Timings
-{
-    ; bm doesn't really have animation locks but other classes may have some we should wait for before we try looting the boss
-    PossibleAnimationLocks()
-    {
-        return 0.5
-    }
-
-    ; time to reach loot, only really needed for range classes who have no approach skill and could be 
-    WalkToLoot()
-    {
-        return 0.5
-    }
-}
-
 class Combat
 {
-    ; if you can prestack something like lux, sunsparks or whatever you can do so here, bm can't, so just an example how you can duplicate funcionality
-    PrestackMiniBoss()
-    {
-        Combat.Prestack()
-    }
-
     ; really simple auto combat, just spam keys, you can also add more complex checks if you ever want to, most of the times this is enough
     AutoCombat()
     {
@@ -43,7 +22,7 @@ class Combat
     {
     }
 
-    ; both bosses can't be range tanked, approach them here
+    ; in case you don't want to waste your biggest burst skill on the eva shield you can define the fight opener here
     ApproachEva()
     {
         ; go into flock stance
@@ -63,6 +42,12 @@ class Combat
         sleep 150
     }
 
+    ; you can either tab early, dps a bit and manually set a cc skill here or just use the tab escape (fck sins and warlocks lol)
+    PhaseEndCC()
+    {
+        send 3
+    }
+
     ; after tabbing we may have to enter a stance again (f.e. bm)
     EnterStance()
     {
@@ -72,7 +57,7 @@ class Combat
         }
     }
 
-    ; skills you don't want to use on the mini boss like starstrike/bluebuff/fireworks etc but want to use in the real fight
+    ; long cd skills you don't want to use during the last part of the fight like starstrike/sb/fireworks etc
     DpsSkills()
     {
         ; starstrike
@@ -84,32 +69,17 @@ class Combat
         sleep 5
     }
 
-    ; iframe you want to use for phase jump/knockdown attack of boss 1 and boss 2, preferred bubble iframe, else add a sleep duration
+    ; iframe you want to use for phase start jump of eva, preferred bubble iframe, else add a sleep duration
     Iframe()
     {
         send c
     }
 
+    ; skills you want to spam during the 1 second duration where you have to cc eva at phase end
     CcSkill()
     {
         send {tab}
         sleep 5
         send 3
-    }
-
-    ; whatever you want to do at the end of a fight, I use it to hmb for additional movement speed
-    EndFight()
-    {
-        ; get out of flock stance
-        send y
-        sleep 500
-
-        ; block
-        send 1
-        sleep 500
-
-        ; hmb
-        send f
-        sleep 5
     }
 }
