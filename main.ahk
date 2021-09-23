@@ -372,6 +372,16 @@ class ProjectEva
     {
         log.addLogEntry("$time: using fail safe to return to eva exit spawn")
 
+        if (Configuration.UseMovementSpeedHack()) {
+            Configuration.DisableMovementSpeedhack()
+            sleep 250
+        }
+
+        if (Configuration.UseCombatSpeedHack()) {
+            Configuration.DisableCombatSpeedhack()
+            sleep 250
+        }
+
         send {AltDown}
         sleep 250
 
@@ -401,7 +411,7 @@ class ProjectEva
 
         ; go to stairs
         send {a down}
-        sleep 15*1000
+        sleep 18.5*1000
         send {a up}
 
         ; start running in front
