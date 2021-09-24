@@ -130,7 +130,7 @@ class ProjectEva
         start := A_TickCount
         while (!UserInterface.IsInLoadingScreen()) {
             ; no idea when this normally happens
-            if (A_TickCount > start + 20 * 1000) {
+            if (A_TickCount > start + 15 * 1000) {
                 log.addLogEntry("$time: entering dungeon took longer than expected, stopping")
 
                 ; record shadowplay since this shouldn't happen usually
