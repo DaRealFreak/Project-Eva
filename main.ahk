@@ -153,7 +153,10 @@ class ProjectEva
 
         if (Configuration.UseAutoCombat()) {
             if (Configuration.UseMovementSpeedHack()) {
-                Configuration.EnableMovementSpeedhack()
+                loop, 5 {
+                    Configuration.EnableMovementSpeedhack()
+                    sleep 25
+                }
             }
 
             ; we can't move somehow during the first few seconds
@@ -164,7 +167,10 @@ class ProjectEva
             sleep 4.5*1000 / (Configuration.UseMovementSpeedHack() ? Configuration.MovementSpeedhackValue() : 1)
 
             if (Configuration.UseMovementSpeedHack()) {
-                Configuration.DisableMovementSpeedhack()
+                loop, 5 {
+                    Configuration.DisableMovementSpeedhack()
+                    sleep 25
+                }
             }
 
             send {w up}
@@ -356,7 +362,10 @@ class ProjectEva
         sleep 100
 
         if (Configuration.UseMovementSpeedHack()) {
-            Configuration.EnableMovementSpeedhack()
+            loop, 5 {
+                Configuration.EnableMovementSpeedhack()
+                sleep 25
+            }
         }
 
         while (!UserInterface.IsInLoadingScreen()) {
@@ -365,7 +374,10 @@ class ProjectEva
         }
 
         if (Configuration.UseMovementSpeedHack()) {
-            Configuration.DisableMovementSpeedhack()
+            loop, 5 {
+                Configuration.DisableMovementSpeedhack()
+                sleep 25
+            }
         }
 
         ; wait until we're out and end this loop
@@ -381,12 +393,18 @@ class ProjectEva
         log.addLogEntry("$time: using fail safe to return to eva exit spawn")
 
         if (Configuration.UseMovementSpeedHack()) {
-            Configuration.DisableMovementSpeedhack()
+            loop, 5 {
+                Configuration.DisableMovementSpeedhack()
+                sleep 25
+            }
             sleep 250
         }
 
         if (Configuration.UseCombatSpeedHack()) {
-            Configuration.DisableCombatSpeedhack()
+            loop, 5 {
+                Configuration.DisableCombatSpeedhack()
+                sleep 25
+            }
             sleep 250
         }
 

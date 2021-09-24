@@ -9,7 +9,10 @@ class AutoCombat
         tooltip % "activating auto combat"
 
         if (Configuration.UseCombatSpeedHack()) {
-            Configuration.EnableCombatSpeedhack()
+            loop, 5 {
+                Configuration.EnableCombatSpeedhack()
+                sleep 25
+            }
         }
 
         Configuration.ToggleAutoCombat()
@@ -141,7 +144,10 @@ class AutoCombat
         sleep 5*1000 / (Configuration.UseCombatSpeedHack() ? Configuration.CombatSpeedhackValue() : 1)
 
         if (Configuration.UseCombatSpeedHack()) {
-            Configuration.DisableCombatSpeedhack()
+            loop, 5 {
+                Configuration.DisableCombatSpeedhack()
+                sleep 25
+            }
         }
 
         Configuration.ToggleAutoCombat()
