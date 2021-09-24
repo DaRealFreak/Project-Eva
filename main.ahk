@@ -427,9 +427,11 @@ class ProjectEva
         UserInterface.ClickWindstridePoint()
 
         sleep 250
-        send y
 
+        start := A_TickCount
         while (!UserInterface.IsInLoadingScreen()) {
+            AutoCombat.CheckForDeathOrTimeout(start)
+            send y
             sleep 250
         }
 
