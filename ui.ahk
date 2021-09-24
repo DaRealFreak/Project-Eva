@@ -72,7 +72,7 @@ class UserInterface
     IsCcBarOpen()
     {
         Utility.GetColor(787, 126, r, g, b)
-        return r < 30 && g < 30 && b < 30
+        return r < 50 && g < 50 && b < 50
     }
 
     ; any pixel on the exit portal
