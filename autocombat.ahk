@@ -72,7 +72,7 @@ class AutoCombat
 
     CheckForDeathOrTimeout(start)
     {
-        if (A_TickCount < start + 30 * 1000) {
+        if (A_TickCount > start + 30 * 1000) {
             log.addLogEntry("$time: action too unexpectedly long, using failsafe")
 
             return ProjectEva.FailSafe()
