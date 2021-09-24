@@ -107,7 +107,7 @@ class ProjectEva
         sleep 1.45*1000
         send {w up}
         send {ShiftUp}
-        sleep 250
+        sleep 500
 
         return ProjectEva.SelectMode()
     }
@@ -164,7 +164,7 @@ class ProjectEva
             send {w down}
             send {ShiftDown}
 
-            sleep 4.5*1000 / (Configuration.UseMovementSpeedHack() ? Configuration.MovementSpeedhackValue() : 1)
+            sleep 4.4*1000 / (Configuration.UseMovementSpeedHack() ? Configuration.MovementSpeedhackValue() : 1)
 
             if (Configuration.UseMovementSpeedHack()) {
                 loop, 5 {

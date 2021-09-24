@@ -71,7 +71,7 @@ class AutoCombat
 
     CheckForDeathOrTimeout(start)
     {
-        if (A_TickCount > start + 30 * 1000) {
+        if (A_TickCount > start + 45 * 1000) {
             log.addLogEntry("$time: action too unexpectedly long, using failsafe")
 
             return ProjectEva.FailSafe()
@@ -105,21 +105,6 @@ class AutoCombat
 
     FinishFight()
     {
-        ; wait until auto combat targets eva again and is out of cc
-        log.addLogEntry("$time: wait until autocombat targets eva for cc")
-        start := A_TickCount
-        while (!UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeathOrTimeout(start)
-            sleep 25
-        }
-
-        ; for 1 second spam the cc skill in case of gcd groups
-        log.addLogEntry("$time: cc phase end")
-        loop, 100 {
-            Combat.CcSkill()
-            sleep 10
-        }
-
         ; wait until auto combat finishes
         log.addLogEntry("$time: autocombat until the end")
         start := A_TickCount
@@ -129,6 +114,15 @@ class AutoCombat
                 loop, 10 {
                     Combat.Iframe()
                     sleep 5
+                }
+            }
+
+            if (UserInterface.IsCcBarOpen()) {
+                ; for 1 second spam the cc skill in case of gcd groups
+                log.addLogEntry("$time: cc phase end")
+                loop, 100 {
+                    Combat.CcSkill()
+                    sleep 10
                 }
             }
             

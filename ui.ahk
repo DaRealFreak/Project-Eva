@@ -68,6 +68,13 @@ class UserInterface
         return Utility.GetColor(1628,689) == "0x726B49"
     }
 
+    ; check if the cc bar is close to black which indicates you can cc eva
+    IsCcBarOpen()
+    {
+        Utility.GetColor(787, 126, r, g, b)
+        return r < 30 && g < 30 && b < 30
+    }
+
     ; any pixel on the exit portal
     IsExitPortalIconVisible()
     {
