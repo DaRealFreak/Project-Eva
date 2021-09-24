@@ -430,7 +430,9 @@ class ProjectEva
 
         start := A_TickCount
         while (!UserInterface.IsInLoadingScreen()) {
-            AutoCombat.CheckForDeathOrTimeout(start)
+            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+                return ProjectEva.FailSafe()
+            }
             send y
             sleep 250
         }

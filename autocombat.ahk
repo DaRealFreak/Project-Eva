@@ -25,7 +25,9 @@ class AutoCombat
         log.addLogEntry("$time: autocombat moving to eva")
         start := A_TickCount
         while (!UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeathOrTimeout(start)
+            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+                return ProjectEva.FailSafe()
+            }
             sleep 25
         }
 
@@ -38,7 +40,9 @@ class AutoCombat
         log.addLogEntry("$time: autocombat until phase jump")
         start := A_TickCount
         while (UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeathOrTimeout(start)
+            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+                return ProjectEva.FailSafe()
+            }
             sleep 25
         }
 
@@ -54,7 +58,9 @@ class AutoCombat
         log.addLogEntry("$time: wait until we can target eva again after phase jump")
         start := A_TickCount
         while (!UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeathOrTimeout(start)
+            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+                return ProjectEva.FailSafe()
+            }
             sleep 25
         }
 
@@ -62,7 +68,9 @@ class AutoCombat
         log.addLogEntry("$time: autocombat until phase")
         start := A_TickCount
         while (UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeathOrTimeout(start)
+            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+                return ProjectEva.FailSafe()
+            }
             sleep 25
         }
 
@@ -74,7 +82,7 @@ class AutoCombat
         if (A_TickCount > start + 45 * 1000) {
             log.addLogEntry("$time: action too unexpectedly long, using failsafe")
 
-            return ProjectEva.FailSafe()
+            return true
         }
 
         if (UserInterface.IsReviveVisible()) {
@@ -90,8 +98,10 @@ class AutoCombat
 
             ProjectEva.WaitLoadingScreen()
 
-            return ProjectEva.FailSafe()
+            return true
         }
+
+        return false
     }
 
     PhaseCombat()
@@ -126,7 +136,9 @@ class AutoCombat
                 }
             }
             
-            AutoCombat.CheckForDeathOrTimeout(start)
+            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+                return ProjectEva.FailSafe()
+            }
 
             sleep 25
         }
@@ -152,7 +164,9 @@ class AutoCombat
 
         start := A_TickCount
         while (!UserInterface.IsExitPortalIconVisible()) {
-            AutoCombat.CheckForDeathOrTimeout(start)
+            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+                return ProjectEva.FailSafe()
+            }
 
             send {left down}
             sleep 0.1*1000
