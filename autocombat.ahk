@@ -125,14 +125,14 @@ class AutoCombat
                     Combat.Iframe()
                     sleep 5
                 }
-            }
-
-            if (UserInterface.IsCcBarOpen()) {
-                ; for 1 second spam the cc skill in case of gcd groups
-                log.addLogEntry("$time: cc phase end")
-                loop, 100 {
-                    Combat.CcSkill()
-                    sleep 10
+            } else {
+                if (UserInterface.IsCcBarOpen()) {
+                    ; for 1 second spam the cc skill in case of gcd groups
+                    log.addLogEntry("$time: cc phase end")
+                    loop, 100 {
+                        Combat.CcSkill()
+                        sleep 10
+                    }
                 }
             }
             
