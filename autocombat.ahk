@@ -6,7 +6,6 @@ class AutoCombat
     StartAutoCombat()
     {
         log.addLogEntry("$time: activating auto combat")
-        tooltip % "activating auto combat"
 
         if (Configuration.UseCombatSpeedHack()) {
             loop, 5 {
@@ -24,9 +23,9 @@ class AutoCombat
     {
         ; wait until auto combat reached eva and attacks her
         log.addLogEntry("$time: autocombat moving to eva")
-        tooltip % "autocombat moving to eva"
+        start := A_TickCount
         while (!UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeath()
+            AutoCombat.CheckForDeathOrTimeout(start)
             sleep 25
         }
 
@@ -37,9 +36,9 @@ class AutoCombat
     {
         ; phase start jump untargetability
         log.addLogEntry("$time: autocombat until phase jump")
-        tooltip % "autocombat until phase jump"
+        start := A_TickCount
         while (UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeath()
+            AutoCombat.CheckForDeathOrTimeout(start)
             sleep 25
         }
 
@@ -54,29 +53,32 @@ class AutoCombat
 
         ; wait until we can attack her again
         log.addLogEntry("$time: wait until we can target eva again after phase jump")
-        tooltip % "wait until we can target eva again after phase jump"
+        start := A_TickCount
         while (!UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeath()
+            AutoCombat.CheckForDeathOrTimeout(start)
             sleep 25
         }
 
         ; wait until she jumps to the sides
         log.addLogEntry("$time: autocombat until phase")
-        tooltip % "autocombat until phase"
+        start := A_TickCount
         while (UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeath()
+            AutoCombat.CheckForDeathOrTimeout(start)
             sleep 25
         }
 
         return AutoCombat.PhaseCombat()
     }
 
-    CheckForDeath()
+    CheckForDeathOrTimeout(start)
     {
-        if (UserInterface.IsReviveVisible()) {
-            ; clear leftover tooltip
-            tooltip % ""
+        if (A_TickCount < start + 30 * 1000) {
+            log.addLogEntry("$time: action too unexpectedly long, using failsafe")
 
+            return ProjectEva.FailSafe()
+        }
+
+        if (UserInterface.IsReviveVisible()) {
             log.addLogEntry("$time: died during auto combat")
 
             Configuration.ClipShadowPlay()
@@ -97,7 +99,6 @@ class AutoCombat
     {
         ; let auto combat do auto combat things during phase
         log.addLogEntry("$time: autocombat during phase")
-        tooltip % "autocombat during phase"
         sleep 34*1000
 
         return AutoCombat.FinishFight()
@@ -107,15 +108,14 @@ class AutoCombat
     {
         ; wait until auto combat targets eva again and is out of cc
         log.addLogEntry("$time: wait until autocombat targets eva for cc")
-        tooltip % "wait until autocombat targets eva for cc"
+        start := A_TickCount
         while (!UserInterface.IsEvaTargetable()) {
-            AutoCombat.CheckForDeath()
+            AutoCombat.CheckForDeathOrTimeout(start)
             sleep 25
         }
 
         ; for 1 second spam the cc skill in case of gcd groups
         log.addLogEntry("$time: cc phase end")
-        tooltip % "cc phase end"
         loop, 100 {
             Combat.CcSkill()
             sleep 10
@@ -123,7 +123,7 @@ class AutoCombat
 
         ; wait until auto combat finishes
         log.addLogEntry("$time: autocombat until the end")
-        tooltip % "autocombat until the end"
+        start := A_TickCount
         while (!UserInterface.IsDynamicRewardVisible()) {
             if (!UserInterface.IsEvaTargetable()) {
                 sleep 250
@@ -133,14 +133,12 @@ class AutoCombat
                 }
             }
             
-            AutoCombat.CheckForDeath()
+            AutoCombat.CheckForDeathOrTimeout(start)
 
             sleep 25
         }
 
         ; wait until we picked up possible loot and went back to the portal
-        tooltip % ""
-
         sleep 5*1000 / (Configuration.UseCombatSpeedHack() ? Configuration.CombatSpeedhackValue() : 1)
 
         if (Configuration.UseCombatSpeedHack()) {
