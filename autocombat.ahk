@@ -156,7 +156,10 @@ class AutoCombat
     {
         ProjectEva.CheckRepair()
 
+        start := A_TickCount
         while (!UserInterface.IsExitPortalIconVisible()) {
+            AutoCombat.CheckForDeathOrTimeout(start)
+
             send {left down}
             sleep 0.1*1000
             send {left up}
