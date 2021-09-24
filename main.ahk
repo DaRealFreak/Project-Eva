@@ -164,7 +164,7 @@ class ProjectEva
             send {w down}
             send {ShiftDown}
 
-            sleep 4.4*1000 / (Configuration.UseMovementSpeedHack() ? Configuration.MovementSpeedhackValue() : 1)
+            sleep 4.3*1000 / (Configuration.UseMovementSpeedHack() ? Configuration.MovementSpeedhackValue() : 1)
 
             if (Configuration.UseMovementSpeedHack()) {
                 loop, 5 {
