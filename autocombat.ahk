@@ -44,7 +44,6 @@ class AutoCombat
 
         ; iframe phase jump
         log.addLogEntry("$time: iframe phase jump")
-        tooltip % "iframe phase jump"
         sleep 250
         loop, 10 {
             Combat.Iframe()
