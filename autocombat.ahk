@@ -145,7 +145,7 @@ class AutoCombat
 
         start := A_TickCount
         while (!UserInterface.IsExitPortalIconVisible()) {
-            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+            if (AutoCombat.CheckForDeathOrTimeout(start, 15)) {
                 return ProjectEva.FailSafe()
             }
 
