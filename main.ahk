@@ -10,9 +10,14 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\ui.ahk
 #Include %A_ScriptDir%\hotkeys.ahk
 
+#Include %A_ScriptDir%\routes\failsafe.ahk
+#Include %A_ScriptDir%\routes\static_1.ahk
+#Include %A_ScriptDir%\routes\static_2.ahk
+
 class ProjectEva
 {
     static runCount := 0
+    static lastRoute := -1
 
     ; function we can call when we expect a loading screen and want to wait until the loading screen is over
     WaitLoadingScreen()
@@ -50,64 +55,23 @@ class ProjectEva
         }
     }
 
-    ; walk to the eva sword and enter easy mode
-    ; fps HAVE to be capped at 60 (and should be stable) for camera movement which is fully dependant on the fps
+    ; walk to the eva sword from exit spawn
     EnterDungeon()
     {
         log.addLogEntry("$time: entering dungeon, runs done: " this.runCount)
         ProjectEva.CheckBuffFood()
 
-        ; start walking
-        send {w down}
-        send {d down}
-        sleep 5
-        ; start sprinting
-        send {ShiftDown}
-        sleep 2.5*1000
-        send {d up}
-        send {w up}
-        send {ShiftUp}
-        sleep 250
-        send {w down}
-
-        loop, 3 {
-            send {ShiftDown}
-            sleep 250
+        ; select a new route until we get one different from the previous run
+        Random, route, 1, 3
+        while (route == this.lastRoute) {
+            Random, route, 1, 3
         }
 
-        sleep 2*1000
-        send {a down}
-        sleep 2*1000
-        send {a up}
-        send {w up}
-        send {ShiftUp}
-        sleep 250
-        send {w down}
+        log.addLogEntry("$time: using route #" route)
+        this.lastRoute := route
 
-        loop, 3 {
-            send {ShiftDown}
-            sleep 250
-        }
-
-        sleep 1*1000
-        send {d down}
-        sleep 2.2*1000
-        send {d up}
-        send {w up}
-        send {ShiftUp}
-
-        sleep 250
-        send {w down}
-
-        loop, 3 {
-            send {ShiftDown}
-            sleep 250
-        }
-
-        sleep 1.45*1000
-        send {w up}
-        send {ShiftUp}
-        sleep 500
+        routeClass := "Route" route
+        %routeClass%.Run()
 
         return ProjectEva.SelectMode()
     }
@@ -439,44 +403,7 @@ class ProjectEva
 
         ProjectEva.WaitLoadingScreen()
 
-        ; go to stairs
-        send {a down}
-        sleep 18.5*1000
-        send {a up}
-
-        ; start running in front
-        send {w down}
-        sleep 5
-        send {ShiftDown}
-        sleep 5
-        sleep 3*1000
-
-        ; now move to the right to the pillar
-        send {d down}
-        sleep 5.5*1000
-        send {d up}
-        send {w up}
-        send {ShiftUp}
-        sleep 5
-
-        ; start running to the npc
-        send {w down}
-        sleep 5
-        send {ShiftDown}
-        sleep 2*1000
-
-        ; bit more left for the spawn point
-        send {a down}
-        sleep 1.75*1000
-        send {a up}
-        send {w up}
-        send {ShiftUp}
-        sleep 5
-
-        ; last steps
-        send {w down}
-        sleep 1*1000
-        send {w up}
+        FailSafeRoute.Run()
 
         return ProjectEva.EnterDungeon()
     }
