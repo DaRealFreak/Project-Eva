@@ -83,6 +83,8 @@ class ProjectEva
 
     SelectMode()
     {
+        sleep 250
+
         start := A_TickCount
         while (!UserInterface.IsExitPortalIconVisible()) {
             if (AutoCombat.CheckForDeathOrTimeout(start, 2)) {
