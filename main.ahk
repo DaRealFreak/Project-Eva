@@ -13,6 +13,7 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\routes\failsafe.ahk
 #Include %A_ScriptDir%\routes\static_1.ahk
 #Include %A_ScriptDir%\routes\static_2.ahk
+#Include %A_ScriptDir%\routes\static_3.ahk
 
 class ProjectEva
 {
