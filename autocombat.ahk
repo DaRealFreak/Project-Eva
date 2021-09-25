@@ -157,6 +157,7 @@ class AutoCombat
 
     ExitDungeon()
     {
+        log.addLogEntry("$time: exiting dungeon")
         ProjectEva.CheckRepair()
 
         start := A_TickCount
