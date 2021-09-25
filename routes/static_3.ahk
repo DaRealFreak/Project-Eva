@@ -4,6 +4,12 @@ SetWorkingDir, %A_ScriptDir%
 
 class Route3
 {
+    ; option to weight this route between 0-100
+    Weight()
+    {
+        return 50
+    }
+
     Jump()
     {
         send {space down}
@@ -29,7 +35,7 @@ class Route3
 
         Route3.Jump()
 
-        sleep 1.8*1000
+        sleep 2.1*1000
 
         send {a down}
         sleep 650
@@ -56,10 +62,10 @@ class Route3
         sleep 250
 
         send {a down}
-        sleep 0.3*100
+        sleep 0.2*1000
         send {a up}
 
-        sleep 1.5*1000
+        sleep 1.2*1000
 
         send {w up}
         send {Shift}

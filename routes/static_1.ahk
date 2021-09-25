@@ -4,6 +4,12 @@ SetWorkingDir, %A_ScriptDir%
 
 class Route1
 {
+    ; option to weight this route between 0-100
+    Weight()
+    {
+        return 100
+    }
+
     Run()
     {
         ; start walking

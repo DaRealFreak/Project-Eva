@@ -64,14 +64,18 @@ class ProjectEva
 
         ; select a new route until we get one different from the previous run
         Random, route, 1, 3
-        while (route == this.lastRoute) {
+        Random, weight, 0, 100
+        routeClass := "Route" route
+
+        while (route == this.lastRoute && weight < %routeClass%.Weight()) {
             Random, route, 1, 3
+            Random, weight, 0, 100
+            routeClass := "Route" route
         }
 
-        log.addLogEntry("$time: using route #" route)
+        log.addLogEntry("$time: using route #" route ", rolled with weight: " weight)
         this.lastRoute := route
 
-        routeClass := "Route" route
         %routeClass%.Run()
 
         return ProjectEva.SelectMode()
