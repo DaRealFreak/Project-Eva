@@ -57,9 +57,9 @@ class AutoCombat
         return AutoCombat.PhaseCombat()
     }
 
-    CheckForDeathOrTimeout(start)
+    CheckForDeathOrTimeout(start, timeout := 45)
     {
-        if (A_TickCount > start + 45 * 1000) {
+        if (A_TickCount > start + timeout * 1000) {
             log.addLogEntry("$time: action too unexpectedly long, using failsafe")
 
             return true
