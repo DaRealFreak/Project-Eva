@@ -54,23 +54,6 @@ class AutoCombat
             sleep 5
         }
 
-        ; wait until we can attack her again or check started max 3 seconds ago (so we don't get stuck if we get knocked back)
-        log.addLogEntry("$time: wait until we can target eva again after phase jump")
-        start := A_TickCount
-        while (!UserInterface.IsEvaTargetable() || A_TickCount > start + 3*1000) {
-            sleep 25
-        }
-
-        ; wait until she jumps to the sides
-        log.addLogEntry("$time: autocombat until phase")
-        start := A_TickCount
-        while (UserInterface.IsEvaTargetable()) {
-            if (AutoCombat.CheckForDeathOrTimeout(start)) {
-                return ProjectEva.FailSafe()
-            }
-            sleep 25
-        }
-
         return AutoCombat.PhaseCombat()
     }
 
