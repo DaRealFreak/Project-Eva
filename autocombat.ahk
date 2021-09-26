@@ -116,7 +116,7 @@ class AutoCombat
                 }
             }
             
-            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+            if (AutoCombat.CheckForDeathOrTimeout(start, 180)) {
                 return ProjectEva.FailSafe()
             }
 
