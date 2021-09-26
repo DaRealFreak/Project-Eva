@@ -38,7 +38,8 @@ class Route5
         send {d down}
         sleep 2.1*1000
         send {d up}
-        sleep 1.6*1000
+        sleep 1.65*1000
         send {w up}
+        sleep 250
    }
 }
