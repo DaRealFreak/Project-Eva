@@ -67,21 +67,27 @@ class ProjectEva
         log.addLogEntry("$time: entering dungeon, runs done: " this.runCount)
         ProjectEva.CheckBuffFood()
 
-        ; select a new route until we get one different from the previous run
-        Random, route, 1, 8
-        Random, weight, 0, 100
-        routeClass := "Route" route
-
-        while (route == this.lastRoute || (%routeClass%.Weight() - weight) < 0) {
+        if (Configuration.ManualWalking()) {
+            while (!UserInterface.IsExitPortalIconVisible()) {
+                sleep 25
+            }
+        } else {
+            ; select a new route until we get one different from the previous run
             Random, route, 1, 8
             Random, weight, 0, 100
             routeClass := "Route" route
+
+            while (route == this.lastRoute || (%routeClass%.Weight() - weight) < 0) {
+                Random, route, 1, 8
+                Random, weight, 0, 100
+                routeClass := "Route" route
+            }
+
+            log.addLogEntry("$time: using route #" route ", rolled with weight: " weight)
+            this.lastRoute := route
+
+            %routeClass%.Run()
         }
-
-        log.addLogEntry("$time: using route #" route ", rolled with weight: " weight)
-        this.lastRoute := route
-
-        %routeClass%.Run()
 
         return ProjectEva.SelectMode()
     }

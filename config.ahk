@@ -7,6 +7,11 @@ This class is primarily used for specific keys or optional settings like speedha
 */
 class Configuration 
 {
+    ManualWalking()
+    {
+        return true
+    }
+
     ; should the character even use buff food
     ShouldUseBuffFood()
     {
