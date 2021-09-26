@@ -98,6 +98,17 @@ class ProjectEva
     {
         sleep 250
 
+        ; jump on the sword if not visible yet
+        if (!UserInterface.IsExitPortalIconVisible()) {
+            sleep 500
+            send {space down}
+            send {w down}
+            sleep 500
+            send {w up}
+            send {space up}
+        }
+
+        ; turn around until we can see the sword or run into the fail safe
         start := A_TickCount
         while (!UserInterface.IsExitPortalIconVisible()) {
             if (AutoCombat.CheckForDeathOrTimeout(start, 2)) {
