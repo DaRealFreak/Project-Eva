@@ -395,6 +395,16 @@ class ProjectEva
             sleep 250
         }
 
+        ; get out of possible quest windows
+        send {Esc}
+        sleep 500
+
+        ; close possible open menu
+        send {w down}
+        sleep 100
+        send {w up}
+        sleep 250
+
         send {AltDown}
         sleep 250
 
@@ -410,18 +420,27 @@ class ProjectEva
         ; zoom in once
         MouseClick, WheelDown
 
-        sleep 250
-        UserInterface.ClickWindstridePoint()
-
-        sleep 250
-
         start := A_TickCount
         while (!UserInterface.IsInLoadingScreen()) {
+            send {AltDown}
+            sleep 250
+            UserInterface.ClickWindstridePoint()
+            sleep 250
+
             if (AutoCombat.CheckForDeathOrTimeout(start)) {
                 return ProjectEva.FailSafe()
             }
-            send y
+
+            ; spam y to continue quest and accept dynamic or to confirm windstride
+            loop, 45 {
+                send yf
+                sleep 25
+            }
+
+            ; if daily 3 additional rewards got reached decline and go for the confirmation in the next loop
             sleep 250
+            send n
+            sleep 100
         }
 
         ProjectEva.WaitLoadingScreen()
