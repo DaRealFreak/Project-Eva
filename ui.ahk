@@ -31,7 +31,7 @@ class UserInterface
     ; whenever you want to refresh your exp buff food (basically one of the last pixels which will become darker)
     IsBuffFoodIconVisible()
     {
-        return Utility.GetColor(21,9) == "0x937841"
+        return Utility.GetColor(20,9) == "0x987B42"
     }
 
     ; some of the filled out bar in the loading screen on the bottom of the screen
