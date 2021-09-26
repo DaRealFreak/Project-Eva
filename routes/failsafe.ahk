@@ -14,7 +14,7 @@ class FailSafeRoute
         sleep 5
         send {Shift}
 
-        sleep 10.5*1000
+        sleep 10.45*1000
 
         send {a up}
 

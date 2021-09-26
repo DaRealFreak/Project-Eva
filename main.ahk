@@ -15,6 +15,10 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\routes\static_2.ahk
 #Include %A_ScriptDir%\routes\static_3.ahk
 #Include %A_ScriptDir%\routes\static_4.ahk
+#Include %A_ScriptDir%\routes\static_5.ahk
+#Include %A_ScriptDir%\routes\static_6.ahk
+#Include %A_ScriptDir%\routes\static_7.ahk
+#Include %A_ScriptDir%\routes\static_8.ahk
 
 class ProjectEva
 {
@@ -64,12 +68,12 @@ class ProjectEva
         ProjectEva.CheckBuffFood()
 
         ; select a new route until we get one different from the previous run
-        Random, route, 1, 4
+        Random, route, 1, 8
         Random, weight, 0, 100
         routeClass := "Route" route
 
         while (route == this.lastRoute || (%routeClass%.Weight() - weight) < 0) {
-            Random, route, 1, 4
+            Random, route, 1, 8
             Random, weight, 0, 100
             routeClass := "Route" route
         }

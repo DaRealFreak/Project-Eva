@@ -2,7 +2,7 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-class Route4
+class Route7
 {
     ; option to weight this route between 0-100
     Weight()
@@ -12,39 +12,33 @@ class Route4
 
     Run()
     {
-        Sleep 1.1*1000
-        Send {d down}
-        sleep 150
+        send {d down}
         send {w down}
-        sleep 150
+        sleep 5
         send {Shift}
-        sleep 1*1000
+        sleep 2500
         send {d up}
-        sleep 750
-        send {d down}
-        sleep 750
-        send {d up}
-        sleep 2.5*1000
+        sleep 2.3*1000
         send {a down}
-        sleep 1.5*1000
+        sleep 2*1000
         send {a up}
-        sleep 1.8 * 1000
+        sleep 1.4*1000
         send {d down}
-        sleep 650
+        sleep 100
+        send {d up}
+        sleep 600
+        send {d down}
+        sleep 200
         send {d up}
         sleep 300
         send {d down}
-        sleep 900
+        sleep 1.7*1000
         send {d up}
-        sleep 700
+        sleep 0.2*1000
         send {d down}
-        sleep 350
+        sleep 100
         send {d up}
-        sleep 1*1000
-        send {d down}
-        sleep 150
-        send {d up}
-        sleep 250
+        sleep 1.6*1000
         send {w up}
    }
 }
