@@ -9,6 +9,7 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\config.ahk
 #Include %A_ScriptDir%\ui.ahk
 #Include %A_ScriptDir%\hotkeys.ahk
+#Include %A_ScriptDir%\camera.ahk
 
 #Include %A_ScriptDir%\routes\failsafe.ahk
 #Include %A_ScriptDir%\routes\static_1.ahk
@@ -19,6 +20,7 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\routes\static_6.ahk
 #Include %A_ScriptDir%\routes\static_7.ahk
 #Include %A_ScriptDir%\routes\static_8.ahk
+#Include %A_ScriptDir%\routes\static_9.ahk
 
 class ProjectEva
 {
@@ -73,12 +75,12 @@ class ProjectEva
             }
         } else {
             ; select a new route until we get one different from the previous run
-            Random, route, 1, 8
+            Random, route, 1, 9
             Random, weight, 0, 100
             routeClass := "Route" route
 
             while (route == this.lastRoute || (%routeClass%.Weight() - weight) < 0) {
-                Random, route, 1, 8
+                Random, route, 1, 9
                 Random, weight, 0, 100
                 routeClass := "Route" route
             }

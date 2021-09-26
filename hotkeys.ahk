@@ -24,8 +24,10 @@ Numpad0::
     ; first check for buff food on starting since we skip the running part
     ProjectEva.CheckBuffFood()
 
-    ; safety initial repair before starting the runs in case we forget it
-    ProjectEva.RepairWeapon()
+    if (!Configuration.ManualWalking()) {
+        ; safety initial repair before starting the runs in case we forget it
+        ProjectEva.RepairWeapon()
+    }
 
     ; start with selection to avoid having to clear it initially before starting
     ProjectEva.SelectMode()
@@ -37,6 +39,14 @@ Numpad0::
         sleep 250
     }
 
+    return
+
+Numpad1::
+    Camera.Spin(180, 1*1000)
+    return
+
+Numpad2::
+    Camera.Spin(180)
     return
 
 NumpadDel::Reload
