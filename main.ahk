@@ -21,6 +21,14 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\routes\static_7.ahk
 #Include %A_ScriptDir%\routes\static_8.ahk
 #Include %A_ScriptDir%\routes\static_9.ahk
+#Include %A_ScriptDir%\routes\static_10.ahk
+#Include %A_ScriptDir%\routes\static_11.ahk
+#Include %A_ScriptDir%\routes\static_12.ahk
+#Include %A_ScriptDir%\routes\static_13.ahk
+#Include %A_ScriptDir%\routes\static_14.ahk
+#Include %A_ScriptDir%\routes\static_15.ahk
+#Include %A_ScriptDir%\routes\static_16.ahk
+#Include %A_ScriptDir%\routes\static_17.ahk
 
 class ProjectEva
 {
@@ -75,12 +83,12 @@ class ProjectEva
             }
         } else {
             ; select a new route until we get one different from the previous run
-            Random, route, 1, 9
+            Random, route, 1, 14
             Random, weight, 0, 100
             routeClass := "Route" route
 
             while (route == this.lastRoute || (%routeClass%.Weight() - weight) < 0) {
-                Random, route, 1, 9
+                Random, route, 1, 14
                 Random, weight, 0, 100
                 routeClass := "Route" route
             }
@@ -441,11 +449,6 @@ class ProjectEva
 
         start := A_TickCount
         while (!UserInterface.IsInLoadingScreen()) {
-            ; stop the script in case the client crashed or we try to cancel the script
-            if (Configuration.IsStopKeyPressed() || !Utility.IsGameActive()) {
-                return false
-            }
-
             send {AltDown}
             sleep 250
             UserInterface.ClickWindstridePoint()
