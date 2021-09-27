@@ -96,7 +96,7 @@ class ProjectEva
 
     SelectMode()
     {
-        sleep 250
+        sleep 750
 
         ; jump on the sword if not visible yet
         if (!UserInterface.IsExitPortalIconVisible()) {
