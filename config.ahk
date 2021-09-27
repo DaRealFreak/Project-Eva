@@ -7,9 +7,15 @@ This class is primarily used for specific keys or optional settings like speedha
 */
 class Configuration 
 {
+    ; check if exit app or reload button is pressed to cancel while loops
+    IsStopKeyPressed()
+    {
+        return GetKeyState("NumpadDel","p") || GetKeyState("NumpadEnter","p")
+    }
+
     ManualWalking()
     {
-        return true
+        return false
     }
 
     ; should the character even use buff food

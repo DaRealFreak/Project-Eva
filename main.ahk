@@ -111,7 +111,7 @@ class ProjectEva
         ; turn around until we can see the sword or run into the fail safe
         start := A_TickCount
         while (!UserInterface.IsExitPortalIconVisible()) {
-            if (AutoCombat.CheckForDeathOrTimeout(start, 2)) {
+            if (AutoCombat.CheckForDeathOrTimeout(start, 4)) {
                 return ProjectEva.FailSafe()
             }
 
@@ -441,6 +441,11 @@ class ProjectEva
 
         start := A_TickCount
         while (!UserInterface.IsInLoadingScreen()) {
+            ; stop the script in case the client crashed or we try to cancel the script
+            if (Configuration.IsStopKeyPressed() || !Utility.IsGameActive()) {
+                return false
+            }
+
             send {AltDown}
             sleep 250
             UserInterface.ClickWindstridePoint()
