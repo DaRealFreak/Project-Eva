@@ -22,7 +22,7 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\routes\static_8.ahk
 #Include %A_ScriptDir%\routes\static_9.ahk
 #Include %A_ScriptDir%\routes\static_10.ahk
-#Include %A_ScriptDir%\routes\static_11.ahk
+#Include %A_ScriptDir%\routes\static_11_dance.ahk
 #Include %A_ScriptDir%\routes\static_12.ahk
 #Include %A_ScriptDir%\routes\static_13.ahk
 #Include %A_ScriptDir%\routes\static_14.ahk
@@ -30,12 +30,12 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\routes\static_16.ahk
 #Include %A_ScriptDir%\routes\static_17.ahk
 #Include %A_ScriptDir%\routes\static_18_dance.ahk
-#Include %A_ScriptDir%\routes\static_19_dance.ahk
 
 class ProjectEva
 {
     static runCount := 0
     static lastRoute := -1
+    static ranFailSafeRoute := false
 
     ; function we can call when we expect a loading screen and want to wait until the loading screen is over
     WaitLoadingScreen()
@@ -83,14 +83,18 @@ class ProjectEva
             while (!UserInterface.IsExitPortalIconVisible()) {
                 sleep 25
             }
+        } else if (this.ranFailSafeRoute) {
+            ; always use route 1 after fail safe to not have to test every route twice
+            Route1.Run()
+            this.ranFailSafeRoute := false
         } else {
             ; select a new route until we get one different from the previous run
-            Random, route, 1, 19
+            Random, route, 1, 18
             Random, weight, 0, 100
             routeClass := "Route" route
 
             while (route == this.lastRoute || (%routeClass%.Weight() - weight) < 0) {
-                Random, route, 1, 19
+                Random, route, 1, 18
                 Random, weight, 0, 100
                 routeClass := "Route" route
             }
@@ -475,6 +479,7 @@ class ProjectEva
         ProjectEva.WaitLoadingScreen()
 
         FailSafeRoute.Run()
+        this.ranFailSafeRoute := true
 
         return ProjectEva.EnterDungeon()
     }
