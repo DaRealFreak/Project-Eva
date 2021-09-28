@@ -390,6 +390,10 @@ class ProjectEva
         }
 
         while (!UserInterface.IsInLoadingScreen()) {
+            if (AutoCombat.CheckForDeathOrTimeout(start)) {
+                return ProjectEva.FailSafe()
+            }
+
             send f
             sleep 250
         }
