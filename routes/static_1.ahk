@@ -35,7 +35,7 @@ class Route1
         sleep 2.05*1000
         send {d up}
         ; final part until we reach the sword
-        sleep 2.1*1000
+        sleep 2.05*1000
         send {w up}
         send {Shift}
         sleep 500
