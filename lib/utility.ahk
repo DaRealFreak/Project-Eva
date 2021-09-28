@@ -5,7 +5,7 @@ SetWorkingDir, %A_ScriptDir%
 ; everything utility related
 class Utility
 {
-    ;return the color at the passed position
+    ; return the color at the passed position
     GetColor(x, y, ByRef red:=-1, ByRef green:=-1, ByRef blue:=-1)
     {
         PixelGetColor, color, x, y, RGB
@@ -23,9 +23,21 @@ class Utility
         Return color
     }
 
-    ;check if BnS is the current active window
+    ; check if BnS is the current active window
     GameActive()
     {
         Return WinActive("ahk_class UnrealWindow")
+    }
+
+    ; send up command for every key to remove leftover key press residues
+    ReleaseAllKeys()
+    {
+        loop, 0xFF
+        {
+            key := Format("VK{:02X}",A_Index)
+            if GetKeyState(key) {
+                send {%key% Up}
+            }
+        }
     }
 }

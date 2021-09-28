@@ -1,6 +1,7 @@
 #SingleInstance, Force
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
+#MaxThreadsPerHotkey, 99
 
 #IfWinActive ahk_class UnrealWindow
 F1::
@@ -41,13 +42,15 @@ Numpad0::
 
     return
 
-Numpad1::
-    Camera.Spin(180, 1*1000)
+*NumPadDot::
+    Utility.ReleaseAllKeys()
+    Reload
     return
+
+*NumPadEnter::
+    Utility.ReleaseAllKeys()
+    ExitApp
 
 Numpad2::
-    Camera.Spin(180)
+    Route11.Run()
     return
-
-NumpadDel::Reload
-NumpadEnter::ExitApp
