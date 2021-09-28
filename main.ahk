@@ -85,6 +85,7 @@ class ProjectEva
             }
         } else if (this.ranFailSafeRoute) {
             ; always use route 1 after fail safe to not have to test every route twice
+            log.addLogEntry("$time: using route #1, due to failsafe being triggered")
             Route1.Run()
             this.ranFailSafeRoute := false
         } else {
