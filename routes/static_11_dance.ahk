@@ -2,7 +2,7 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-class Route19
+class Route11
 {
     ; option to weight this route between 0-100
     Weight()
