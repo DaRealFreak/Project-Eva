@@ -13,7 +13,6 @@ class Route15
     Run()
     {
         ; start walking
-        sleep 250
         Send, {w Down}
         Sleep, 219
         Send, {d Down}
@@ -53,6 +52,5 @@ class Route15
         Send, {w Up}
         Sleep, 31
         Send, {LShift Up}
-        sleep 250
     }
 }

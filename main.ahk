@@ -29,6 +29,8 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\routes\static_15.ahk
 #Include %A_ScriptDir%\routes\static_16.ahk
 #Include %A_ScriptDir%\routes\static_17.ahk
+#Include %A_ScriptDir%\routes\static_18_dance.ahk
+#Include %A_ScriptDir%\routes\static_19_dance.ahk
 
 class ProjectEva
 {
@@ -83,12 +85,12 @@ class ProjectEva
             }
         } else {
             ; select a new route until we get one different from the previous run
-            Random, route, 1, 14
+            Random, route, 1, 19
             Random, weight, 0, 100
             routeClass := "Route" route
 
             while (route == this.lastRoute || (%routeClass%.Weight() - weight) < 0) {
-                Random, route, 1, 14
+                Random, route, 1, 19
                 Random, weight, 0, 100
                 routeClass := "Route" route
             }

@@ -2,13 +2,13 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-class Route1
+class Route19
 {
     ; option to weight this route between 0-100
     Weight()
     {
-        ; 95% chance if we roll this route to actually take it, since static_19_dance is equal from pathing to this route
-        return 95
+        ; 5% chance if we roll this route to actually take it, since static_1 is equal from pathing to this route
+        return 5
     }
 
     Run()
@@ -39,5 +39,13 @@ class Route1
         send {w up}
         send {Shift}
         sleep 500
+
+        ; scout for 2 seconds
+        send {RAlt down}
+        sleep 250
+        send 2
+        sleep 250
+        send {RAlt up}
+        sleep 3*1000
    }
 }
