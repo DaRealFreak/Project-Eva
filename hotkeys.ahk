@@ -53,7 +53,3 @@ Numpad0::
 *NumPadEnter::
     Utility.ReleaseAllKeys()
     ExitApp
-
-Numpad2::
-    Route11.Run()
-    return

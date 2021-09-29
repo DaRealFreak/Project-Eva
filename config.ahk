@@ -7,12 +7,13 @@ This class is primarily used for specific keys or optional settings like speedha
 */
 class Configuration 
 {
-    ; check if exit app or reload button is pressed to cancel while loops
-    IsStopKeyPressed()
+    ; shut down the computer if no bns processes are found anymore (dc or maintenance)
+    ShutdownComputerAfterCrash()
     {
-        return GetKeyState("NumpadDel","p") || GetKeyState("NumpadEnter","p")
+        return false
     }
 
+    ; walk manually until you see the portal icon of the sword
     ManualWalking()
     {
         return false

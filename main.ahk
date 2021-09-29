@@ -434,6 +434,12 @@ class ProjectEva
             sleep 250
         }
 
+        WinGet, bnsWindows, Count, Blade & Soul
+        if (bnsWindows == 0) {
+            log.addLogEntry("$time: no Blade & Soul processes found, exiting application")
+            ExitApp
+        }
+
         ; get out of possible quest windows
         send {Esc}
         sleep 500
@@ -505,5 +511,12 @@ class ProjectEva
     Exiting()
     {
         Utility.ReleaseAllKeys()
+
+        if (Configuration.ShutdownComputerAfterCrash()) {
+            WinGet, bnsWindows, Count, Blade & Soul
+            if (bnsWindows == 0) {
+                run, %comspec% /c shutdown –s –t 60
+            }
+        }
     }
 }
