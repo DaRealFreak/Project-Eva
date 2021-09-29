@@ -1,7 +1,10 @@
+#Persistent
 #SingleInstance, Force
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 #MaxThreadsPerHotkey, 99
+
+OnExit(ObjBindMethod(ProjectEva, "Exiting"))
 
 #IfWinActive ahk_class UnrealWindow
 F1::

@@ -389,6 +389,7 @@ class ProjectEva
             }
         }
 
+        start := A_TickCount
         while (!UserInterface.IsInLoadingScreen()) {
             if (AutoCombat.CheckForDeathOrTimeout(start)) {
                 return ProjectEva.FailSafe()
@@ -499,5 +500,10 @@ class ProjectEva
             Configuration.UseRepairTools()
             sleep 5
         }
+    }
+
+    Exiting()
+    {
+        Utility.ReleaseAllKeys()
     }
 }
