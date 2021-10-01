@@ -89,7 +89,6 @@ class ProjectEva
     EnterDungeon()
     {
         log.addLogEntry("$time: entering dungeon, runs done: " this.runCount)
-        ProjectEva.CheckBuffFood()
 
         if (Configuration.ManualWalking()) {
             while (!UserInterface.IsExitPortalIconVisible()) {
@@ -176,6 +175,16 @@ class ProjectEva
         }
 
         ProjectEva.WaitLoadingScreen()
+
+        ; check for buff food inside before we start running into position
+        ProjectEva.CheckBuffFood()
+
+        if (this.runCount == 0) {
+            if (!Configuration.ManualWalking()) {
+                ; safety initial repair before starting the runs in case we forget it
+                ProjectEva.RepairWeapon()
+            }
+        }
 
         return ProjectEva.MoveToEva()
     }

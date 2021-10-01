@@ -25,14 +25,6 @@ Numpad0::
     log.initalizeNewLogFile(1)
     log.addLogEntry("$time: starting project eva")
 
-    ; first check for buff food on starting since we skip the running part
-    ProjectEva.CheckBuffFood()
-
-    if (!Configuration.ManualWalking()) {
-        ; safety initial repair before starting the runs in case we forget it
-        ProjectEva.RepairWeapon()
-    }
-
     ; start with selection to avoid having to clear it initially before starting
     ProjectEva.SelectMode()
 
