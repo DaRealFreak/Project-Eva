@@ -6,22 +6,27 @@ class FailSafeRoute
 {
     Run()
     {
-        send {a down}
-        sleep 0.75*1000
-
-        ; start walking
-        send {w down}
-        sleep 5
-        send {Shift}
-
-        sleep 10.45*1000
-
-        send {a up}
-
-        sleep 1.75*1000
-
-        send {w up}
-        send {Shift}
-        sleep 500
+        Send, {a Down}
+        Sleep, 800
+        Send, {w Down}
+        Send, {LShift Down}
+        Sleep, 375
+        Send, {LShift Up}
+        Sleep, 515
+        Send, {Space Down}
+        Sleep, 235
+        Send, {Space Up}
+        Sleep, 1562
+        Send, {Space Down}
+        Sleep, 203
+        Send, {Space Up}
+        Sleep, 7275
+        Send, {a Up}
+        Sleep, 250
+        Send, {Space Down}
+        Sleep, 235
+        Send, {Space Up}
+        Sleep, 1453
+        Send, {w Up}
    }
 }
