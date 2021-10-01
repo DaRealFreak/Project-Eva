@@ -33,7 +33,7 @@ class Route13
         Send, {D Down}
         Sleep, 1.6*1000
         Send, {d Up}
-        Sleep, 1.45*1000
+        Sleep, 1.5*1000
         Send, {w Up}
         Sleep, 125
         Send, {LShift Up}

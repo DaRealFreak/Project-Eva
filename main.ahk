@@ -30,6 +30,18 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\routes\static_16.ahk
 #Include %A_ScriptDir%\routes\static_17.ahk
 #Include %A_ScriptDir%\routes\static_18_dance.ahk
+#Include %A_ScriptDir%\routes\static_19.ahk
+#Include %A_ScriptDir%\routes\static_20.ahk
+#Include %A_ScriptDir%\routes\static_21.ahk
+#Include %A_ScriptDir%\routes\static_22.ahk
+#Include %A_ScriptDir%\routes\static_23.ahk
+#Include %A_ScriptDir%\routes\static_24.ahk
+#Include %A_ScriptDir%\routes\static_25.ahk
+#Include %A_ScriptDir%\routes\static_26.ahk
+#Include %A_ScriptDir%\routes\static_27.ahk
+#Include %A_ScriptDir%\routes\static_28.ahk
+#Include %A_ScriptDir%\routes\static_29.ahk
+#Include %A_ScriptDir%\routes\static_30.ahk
 
 class ProjectEva
 {
