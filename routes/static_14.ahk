@@ -23,21 +23,21 @@ class Route14
         Send, {d Up}
         Sleep, 2656
         Send, {A Down}
-        Sleep, 750
+        Sleep, 950
         Send, {A Up}
         Sleep, 485
         Send, {A Down}
         Sleep, 500
         Send, {A Up}
-        Sleep, 578
+        Sleep, 378
         Send, {Space Down}
         Sleep, 828
         Send, {Space Up}
-        Sleep, 907
+        Sleep, 1207
         Send, {D Down}
-        Sleep, 1.58*1000
+        Sleep, 1.78*1000
         Send, {d Up}
-        Sleep, 1.9*1000
+        Sleep, 1.7*1000
         Send, {LShift Up}
         Sleep, 15
         Send, {w Up}

@@ -102,12 +102,12 @@ class ProjectEva
             this.ranFailSafeRoute := false
         } else {
             ; select a new route until we get one different from the previous run
-            Random, route, 1, 18
+            Random, route, 1, 30
             Random, weight, 0, 100
             routeClass := "Route" route
 
             while (route == this.lastRoute || (%routeClass%.Weight() - weight) < 0) {
-                Random, route, 1, 18
+                Random, route, 1, 30
                 Random, weight, 0, 100
                 routeClass := "Route" route
             }
@@ -138,7 +138,7 @@ class ProjectEva
         ; turn around until we can see the sword or run into the fail safe
         start := A_TickCount
         while (!UserInterface.IsExitPortalIconVisible()) {
-            if (AutoCombat.CheckForDeathOrTimeout(start, 4)) {
+            if (AutoCombat.CheckForDeathOrTimeout(start, 6)) {
                 return ProjectEva.FailSafe()
             }
 
