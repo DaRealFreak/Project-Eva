@@ -22,11 +22,7 @@ class FailSafeRoute
         Send, {Space Up}
         Sleep, 7600
         Send, {a Up}
-        Sleep, 250
-        Send, {Space Down}
-        Sleep, 235
-        Send, {Space Up}
-        Sleep, 1453
+        Sleep, 1.5*1000
         Send, {w Up}
    }
 }

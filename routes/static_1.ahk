@@ -27,7 +27,7 @@ class Route1
         Send, {d Up}
         Sleep, 2750
         Send, {a Down}
-        Sleep, 1328
+        Sleep, 1528
         Send, {a Up}
         Sleep, 516
         Send, {a Down}
@@ -35,13 +35,13 @@ class Route1
         Send, {a Up}
         Sleep, 1656
         Send, {d Down}
-        Sleep, 1781
+        Sleep, 1981
         Send, {d Up}
         Sleep, 704
         Send, {d Down}
         Sleep, 80
         Send, {d Up}
-        sleep 1.2*1000
+        sleep 1.1*1000
         send {w up}
    }
 }
