@@ -25,6 +25,11 @@ class Configuration
         return true
     }
 
+    UseNoText()
+    {
+        return true
+    }
+
     ; hotkey where the buff food is placed
     UseBuffFood()
     {

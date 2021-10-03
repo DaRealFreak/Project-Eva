@@ -97,8 +97,12 @@ class ProjectEva
         } else if (this.ranFailSafeRoute) {
             ; always use route 1 after fail safe to not have to test every route twice
             log.addLogEntry("$time: using route #1, due to failsafe being triggered")
-            Route1.Run()
+
+            this.lastRoute := 1
             this.ranFailSafeRoute := false
+
+            sleep 250
+            Route1.Run()
         } else {
             ; select a new route until we get one different from the previous run
             Random, route, 1, 30
@@ -114,6 +118,7 @@ class ProjectEva
             log.addLogEntry("$time: using route #" route ", rolled with weight: " weight)
             this.lastRoute := route
 
+            sleep 250
             %routeClass%.Run()
         }
 
@@ -392,6 +397,11 @@ class ProjectEva
 
     UseExitPortal()
     {
+        if (Configuration.UseNoText()) {
+            UserInterface.ClickDynamicQuest()
+            sleep 250
+        }
+
         ; spam y to continue quest and accept dynamic
         loop, 45 {
             send yf
@@ -455,9 +465,10 @@ class ProjectEva
             sleep 250
         }
 
-        WinGet, bnsWindows, Count, Blade & Soul
-        if (bnsWindows == 0) {
-            log.addLogEntry("$time: no Blade & Soul processes found, exiting application")
+        ; check if the active window is still bns
+        WinGet, output, processName, A
+        if (processName != "BNSR.exe") {
+            log.addLogEntry("$time: Blade & Soul is not the active window, exiting application")
             ExitApp
         }
 
@@ -511,6 +522,9 @@ class ProjectEva
 
         ProjectEva.WaitLoadingScreen()
 
+        ; let stuff load on crappy laptops/computers
+        sleep 750
+
         FailSafeRoute.Run()
         this.ranFailSafeRoute := true
 
@@ -534,8 +548,8 @@ class ProjectEva
         Utility.ReleaseAllKeys()
 
         if (Configuration.ShutdownComputerAfterCrash()) {
-            WinGet, bnsWindows, Count, Blade & Soul
-            if (bnsWindows == 0) {
+            WinGet, output, processName, A
+            if (processName != "BNSR.exe") {
                 run, %comspec% /c shutdown –s –t 60
             }
         }

@@ -65,7 +65,15 @@ class UserInterface
     ; box icon of the dynamic quest
     IsDynamicRewardVisible()
     {
-        return Utility.GetColor(1628,689) == "0x726B49"
+        return Utility.GetColor(1592,649) == "0x58B54C"
+    }
+
+    ; click to trigger dynamic reward dialogue, not needed if you don't use NoText
+    ClickDynamicQuest()
+    {
+        send {AltDown}
+        sleep 150
+        MouseClick, left, 1695, 684
     }
 
     ; check if the cc bar is close to black which indicates you can cc eva
