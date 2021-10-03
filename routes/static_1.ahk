@@ -23,7 +23,7 @@ class Route1
         Send, {d Up}
         Sleep, 531
         Send, {d Down}
-        Sleep, 625
+        Sleep, 725
         Send, {d Up}
         Sleep, 2750
         Send, {a Down}
