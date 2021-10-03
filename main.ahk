@@ -398,7 +398,9 @@ class ProjectEva
     UseExitPortal()
     {
         if (Configuration.UseNoText()) {
-            UserInterface.ClickDynamicQuest()
+            loop, 4 {
+                UserInterface.ClickDynamicQuest()
+            }
             sleep 250
         }
 
@@ -466,8 +468,8 @@ class ProjectEva
         }
 
         ; check if the active window is still bns
-        WinGet, output, processName, A
-        if (processName != "BNSR.exe") {
+        WinGet, currentProcess, ProcessName, A
+        if (currentProcess != "BNSR.exe") {
             log.addLogEntry("$time: Blade & Soul is not the active window, exiting application")
             ExitApp
         }
@@ -548,8 +550,8 @@ class ProjectEva
         Utility.ReleaseAllKeys()
 
         if (Configuration.ShutdownComputerAfterCrash()) {
-            WinGet, output, processName, A
-            if (processName != "BNSR.exe") {
+            WinGet, currentProcess, ProcessName, A
+            if (currentProcess != "BNSR.exe") {
                 run, %comspec% /c shutdown –s –t 60
             }
         }
