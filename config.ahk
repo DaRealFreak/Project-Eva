@@ -115,7 +115,7 @@ class Configuration
     ; configured speed value
     CombatSpeedhackValue()
     {
-        return 4.7
+        return 4.5
     }
 
     ; shortcut for shadowplay clip in case we want to debug how we got stuck or got to this point
