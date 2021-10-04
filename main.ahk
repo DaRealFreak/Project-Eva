@@ -552,7 +552,8 @@ class ProjectEva
         if (Configuration.ShutdownComputerAfterCrash()) {
             WinGet, currentProcess, ProcessName, A
             if (currentProcess != "BNSR.exe") {
-                run, %comspec% /c shutdown –s –t 60
+                ; normal shutdown and force close applications
+                Shutdown, 5
             }
         }
     }
