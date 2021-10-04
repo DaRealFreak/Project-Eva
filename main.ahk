@@ -9,7 +9,6 @@ SetWinDelay, -1
 #Include %A_ScriptDir%\config.ahk
 #Include %A_ScriptDir%\ui.ahk
 #Include %A_ScriptDir%\hotkeys.ahk
-#Include %A_ScriptDir%\camera.ahk
 
 #Include %A_ScriptDir%\routes\failsafe.ahk
 #Include %A_ScriptDir%\routes\static_1.ahk
@@ -64,7 +63,7 @@ class ProjectEva
             sleep 5
         }
 
-        sleep 250
+        sleep 50
     }
 
     ; simply check for the buff food and use 
@@ -99,7 +98,6 @@ class ProjectEva
             log.addLogEntry("$time: using route #1, due to failsafe being triggered")
 
             this.ranFailSafeRoute := false
-            sleep 250
             Route1.Run()
         } else {
             ; select a new route until we get one different from the previous run
@@ -116,7 +114,6 @@ class ProjectEva
             log.addLogEntry("$time: using route #" route ", rolled with weight: " weight)
             this.lastRoute := route
 
-            sleep 250
             %routeClass%.Run()
         }
 
@@ -125,11 +122,11 @@ class ProjectEva
 
     SelectMode()
     {
-        sleep 750
+        sleep 250
 
         ; jump on the sword if not visible yet
         if (!UserInterface.IsExitPortalIconVisible()) {
-            sleep 500
+            sleep 50
             send {space down}
             send {w down}
             sleep 500
@@ -150,7 +147,7 @@ class ProjectEva
         }
 
         send f
-        sleep 750
+        sleep 250
 
         ; it sometimes didn't register the click, safety loop here
         loop, 4 {
@@ -159,7 +156,7 @@ class ProjectEva
             } else {
                 UserInterface.ClickEasyMode()
             }
-            sleep 250
+            sleep 150
         }
 
         start := A_TickCount
@@ -174,7 +171,7 @@ class ProjectEva
                 return ProjectEva.FailSafe()
             }
 
-            sleep 250
+            sleep 50
         }
 
         ProjectEva.WaitLoadingScreen()
@@ -486,7 +483,7 @@ class ProjectEva
         sleep 250
 
         UserInterface.MoveMouseOverMap()
-        sleep 250
+        sleep 50
 
         ; zoom out completely
         loop, 5 {
@@ -517,13 +514,13 @@ class ProjectEva
             ; if daily 3 additional rewards got reached decline and go for the confirmation in the next loop
             sleep 250
             send n
-            sleep 100
         }
 
-        ProjectEva.WaitLoadingScreen()
+        sleep 50
+        send {Alt Up}
+        sleep 50
 
-        ; let stuff load on crappy laptops/computers
-        sleep 750
+        ProjectEva.WaitLoadingScreen()
 
         FailSafeRoute.Run()
         this.ranFailSafeRoute := true
