@@ -98,19 +98,17 @@ class ProjectEva
             ; always use route 1 after fail safe to not have to test every route twice
             log.addLogEntry("$time: using route #1, due to failsafe being triggered")
 
-            this.lastRoute := 1
             this.ranFailSafeRoute := false
-
             sleep 250
             Route1.Run()
         } else {
             ; select a new route until we get one different from the previous run
-            Random, route, 1, 30
+            Random, route, 2, 30
             Random, weight, 0, 100
             routeClass := "Route" route
 
             while (route == this.lastRoute || (%routeClass%.Weight() - weight) < 0) {
-                Random, route, 1, 30
+                Random, route, 2, 30
                 Random, weight, 0, 100
                 routeClass := "Route" route
             }
