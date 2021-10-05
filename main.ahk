@@ -122,7 +122,7 @@ class ProjectEva
 
     SelectMode()
     {
-        sleep 250
+        sleep 750
 
         ; jump on the sword if not visible yet
         if (!UserInterface.IsExitPortalIconVisible()) {
@@ -162,7 +162,7 @@ class ProjectEva
         start := A_TickCount
         while (!UserInterface.IsInLoadingScreen()) {
             ; no idea when this normally happens
-            if (A_TickCount > start + 15 * 1000) {
+            if (A_TickCount > start + 25 * 1000) {
                 log.addLogEntry("$time: entering dungeon took longer than expected, stopping")
 
                 ; record shadowplay since this shouldn't happen usually
@@ -175,9 +175,6 @@ class ProjectEva
         }
 
         ProjectEva.WaitLoadingScreen()
-
-        ; check for buff food inside before we start running into position
-        ProjectEva.CheckBuffFood()
 
         if (this.runCount == 0) {
             if (!Configuration.ManualWalking()) {
@@ -218,6 +215,9 @@ class ProjectEva
             send {w up}
             send {ShiftUp}
 
+            ; check for buff food directly before the fight
+            ProjectEva.CheckBuffFood()
+
             return AutoCombat.StartAutoCombat()
         } else {
             send {w down}
@@ -229,6 +229,9 @@ class ProjectEva
             while (!UserInterface.IsEvaTargetable()) {
                 sleep 25
             }
+
+            ; check for buff food directly before the fight
+            ProjectEva.CheckBuffFood()
 
             return ProjectEva.FightEva()
         }
