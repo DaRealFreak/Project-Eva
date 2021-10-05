@@ -31,6 +31,9 @@ class AutoCombat
             sleep 25
         }
 
+        ; safety sleep in case eva is instantly targetable for buffered messages to log file
+        sleep 50
+
         return AutoCombat.FightEva()
     }
 
