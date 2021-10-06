@@ -7,6 +7,48 @@ This class is primarily used for specific keys or optional settings like speedha
 */
 class Configuration 
 {
+    ; option to use random sleeps at the sword to be more inconspicuous
+    UseRandomSleeps()
+    {
+        return true
+    }
+
+    ; time to randomly sleep at the sword
+    RandomSleepTime()
+    {
+        ; sleep between 1.5 and 4 seconds at the sword
+        Random, sleepyTime, 1.5*1000, 4*1000
+        return sleepyTime
+    }
+
+    ; option to use breaks after set amount of runs
+    UseBreaks()
+    {
+        return true
+    }
+
+    ; time to take a break at the sword
+    BreakTime()
+    {
+        ; take a break between 3 and 10 minutes
+        Random, breakyTime, 3*60*1000, 10*60*1000
+        return breakyTime
+    }
+
+    ; after how many runs should we take a break
+    BreakAfterRuns()
+    {
+        ; take a break after every 7 to 15 runs
+        Random, breakAfterRuns, 7, 15
+        return breakAfterRuns
+    }
+
+    ; failsafe is obvious outside, so we can configure if we want to deactivate it
+    UseFailsafeOutside()
+    {
+        return false
+    }
+
     ; shut down the computer if no bns processes are found anymore (dc or maintenance)
     ShutdownComputerAfterCrash()
     {

@@ -45,6 +45,7 @@ SetWinDelay, -1
 class ProjectEva
 {
     static runCount := 0
+    static breakOnRunCount := 0
     static lastRoute := -1
     static ranFailSafeRoute := false
 
@@ -122,28 +123,50 @@ class ProjectEva
 
     SelectMode()
     {
-        sleep 750
-
-        ; jump on the sword if not visible yet
-        if (!UserInterface.IsExitPortalIconVisible()) {
-            sleep 50
-            send {space down}
-            send {w down}
-            sleep 500
-            send {w up}
-            send {space up}
+        ; random sleep times to don't look as bot like
+        if (Configuration.UseRandomSleeps() && this.runCount != 0) {
+            sleepTime := Configuration.RandomSleepTime()
+            log.addLogEntry("$time: sleeping " sleepTime "ms before selecting mode")
+            sleep %sleepTime%
+        } else {
+            sleep 750
         }
 
-        ; turn around until we can see the sword or run into the fail safe
-        start := A_TickCount
-        while (!UserInterface.IsExitPortalIconVisible()) {
-            if (AutoCombat.CheckForDeathOrTimeout(start, 6)) {
-                return ProjectEva.FailSafe()
+        ; take a break after set amount of runs
+        if (Configuration.UseBreaks()) {
+            if ((this.breakOnRunCount - this.runCount) <= 0) {
+                if (this.runCount != 0) {
+                    breakTime := Configuration.BreakTime()
+                    log.addLogEntry("$time: taking a break for " breakTime "ms before continuing")
+                    sleep %breakTime%
+                }
+                this.breakOnRunCount := this.runCount + Configuration.BreakAfterRuns()
+                log.addLogEntry("$time: next break will be after run #" this.breakOnRunCount)
+            }
+        }
+
+        if (Configuration.UseFailsafeOutside()) {
+            ; jump on the sword if not visible yet
+            if (!UserInterface.IsExitPortalIconVisible()) {
+                sleep 50
+                send {space down}
+                send {w down}
+                sleep 500
+                send {w up}
+                send {space up}
             }
 
-            send {left down}
-            sleep 0.2*1000
-            send {left up}
+            ; turn around until we can see the sword or run into the fail safe
+            start := A_TickCount
+            while (!UserInterface.IsExitPortalIconVisible()) {
+                if (AutoCombat.CheckForDeathOrTimeout(start, 6)) {
+                    return ProjectEva.FailSafe()
+                }
+
+                send {left down}
+                sleep 0.2*1000
+                send {left up}
+            }
         }
 
         send f
@@ -168,7 +191,11 @@ class ProjectEva
                 ; record shadowplay since this shouldn't happen usually
                 Configuration.ClipShadowPlay()
 
-                return ProjectEva.FailSafe()
+                if (Configuration.UseFailsafeOutside()) {
+                    return ProjectEva.FailSafe()
+                } else {
+                    ExitApp
+                }
             }
 
             sleep 50
